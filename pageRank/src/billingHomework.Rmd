@@ -1,0 +1,167 @@
+---
+title: "Billing and Fraud Analysis"
+author: "Sahit Mandala"
+date: "October 11, 2015"
+output: html_document
+---
+
+  In this exploratory survey, we consider the 2013 referral network with respect to the physician billing data set, containing aggregated information regarding medical services, payment amounts, and medicare reimbursement per physician. Our primary interest is in utilizing SNA techniques to identity potentially fraudulent trends in physician referrals and billing data. While data sets regarding actual fraud cases are largely unavailable, we will more generally study anomalous behaviors regarding types of providers, services billed, and average amounts billed to Medicare. We first look at sample trends in amounts billed by physicians (on average and in total), and consider how these "big billers" are positioned. We also highlight some recent work into fraud detection techniques as applied to social network analysis. In particular, we summarize recent work by HortonWorks (see below) into using PageRank on Medicare Billing data to highlight potentially anomalous agents. To summarize the algorithm, we create a similarity graph on physicians based on the types of services billed as well as number of services billed. We then utilize PageRank to highlight major physicians on each speciality, and compare the results to the actual speciality on the physician; if the 2 values differ greatly, we expect some anomalous case (fradulent or not). While this methodology has shown success in highlight anomalous physician behavior, we believe that the referral data should be integrated into this algorithm to provide a stronger metric on anomalous behaviors, utilizing local relationships and behavior on physicians location and referrals.
+
+Data Set: We used the "Medicare Provider Utilization and Payment Data: Physician and Other Supplier" data from the CMS website. In the interest of performance, we only utilized the data set on physicians with the last name starting with "A"
+
+(Credits to Ofer Mendelevitch for the methodology and Hadoop/Python codes used as reference: http://hortonworks.com/blog/using-pagerank-detect-anomalies-fraud-healthcare/)
+```{r warning=F, echo=FALSE}
+#Loading data
+source("loadData.R")
+library(plotrix)
+
+#Some data cleaning
+PhyPay$line_srvc_cnt <- as.numeric(PhyPay$line_srvc_cnt)
+PhyPay$average_Medicare_allowed_amt <- as.numeric(sub("\\$","", PhyPay$average_Medicare_allowed_amt))
+PhyPay$average_submitted_chrg_amt <- as.numeric(sub("\\$","", PhyPay$average_submitted_chrg_amt))
+PhyPay$average_Medicare_payment_amt <- as.numeric(sub("\\$","", PhyPay$average_Medicare_payment_amt))
+
+PhyPay$bene_day_srvc_cnt = as.numeric(PhyPay$bene_day_srvc_cnt)
+
+PhyPay$totalPay <-PhyPay$average_submitted_chrg_amt*PhyPay$bene_day_srvc_cnt
+PhyPay$totalPay[is.na(PhyPay$totalPay)] = 0
+
+PhyPay=PhyPay[order(PhyPay$npi, PhyPay$bene_day_srvc_cnt, decreasing = TRUE)]
+```
+
+First, we look at some of the billing trends among physicians in Boston.
+
+```{r warning=F}
+BosPay = PhyPay[nppes_provider_state=="MA"]
+BosPay = BosPay[nppes_provider_city=="BOSTON"]
+BosPay = BosPay[`npi`==BosPay$npi, mult="first"]
+BosDT = DT[unique(BosPay$npi)]
+setkey(BosDT,NPI)
+BosEt = Et[unique(BosDT$NPI)]
+BosEt = BosEt[complete.cases(BosEt)]
+
+el=as.matrix(BosEt)[,1:2] #igraph needs the edgelist to be in matrix format
+g=graph.edgelist(el,directed = F)
+g= simplify(g)  # removes any self loops and multiple edges
+core = graph.coreness(g)  # talk about core.
+g1 = induced.subgraph(graph = g,vids = V(g)[core>3])  # talk about induced subgraphs.
+
+locs = layout.fruchterman.reingold(g1)
+```
+
+Here is a graph of Boston physicians, colored on the scale average submitted charge amount (darker is higher, black is highest). 
+
+```{r warning=F}
+#Color on cost
+PhyCost = PhyPay[V(g1)]$average_submitted_chrg_amt
+PhyCost[is.na(PhyCost)] = 0
+gcolor = gray(1-(PhyCost-min(PhyCost))/(max(PhyCost)-min(PhyCost)))
+plot(g1, vertex.label = NA, vertex.color = gcolor , layout = locs)
+```
+
+Now we color the graph on the total payout to the physician (based on a single, most common service on physician)
+
+```{r warning=F}
+#Color of total billing from professional
+PhyTot = PhyPay[V(g1)]$totalPay
+tmpTot = data.table(V(g1),1-(PhyTot-min(PhyTot))/(max(PhyTot)-min(PhyTot)))
+setkey(tmpTot, V1)
+gcolor = gray(tmpTot$V2)
+plot(g1, vertex.label = NA, vertex.color = gcolor , layout = locs)
+```
+
+We wanted to create a graphic overlay of the color graph on the map to geographically organize the referral network and geofence areas of similar "high billing". However, we had difficulty integrating igraph and map plots. We did find potential solutions which would be possible with more time. However, for now, we just overlayed some of the physicians on the graph, color coded again by average charged amounts to Medicare.
+
+```{r warning=F}
+#Geographic overlay
+library(maps); library(ggplot2)
+library(ggmap)
+
+zip = BosDT[BosPay$npi, mult='first']$"Zip Code"
+zip = substr(zip, start = 1, stop = 5)
+
+data(zipcode)  # this contains the locations of zip codes
+zipcode = as.data.table(zipcode); setkey(zipcode, zip)  # thanks data.table for making things so fast!  
+loc =  zipcode[zip, c("latitude", "longitude"), with = F]
+loc = loc[complete.cases(loc)]
+loc = as.matrix(loc)
+
+#Plots data against aver medicare payment amt
+PhyCost = BosPay$average_submitted_chrg_amt 
+PhyCost[is.na(PhyCost)] = 0
+gcolor = gray(1-(PhyCost-min(PhyCost))/(max(PhyCost)-min(PhyCost)), alpha = 0.5)
+#
+library(maps); 
+plot(loc[,2], loc[,1], col = gcolor, xlim = c(-71.5, -70.5), ylim = c(42.2,42.6))
+map('state', region = c('massachusetts'), add = T)  # adds an outline
+
+map <- get_map(location = 'Boston, Massachusetts',zoom=12)
+df <- data.frame(lon=loc[,2], lat = loc[,2])
+ggmap(map) + geom_point(aes(x = loc[,2], y = loc[,1]), data=df) + scale_fill_manual(values = gcolor)
+
+```
+
+Now we move onto the PageRank fraud detection method. Here, we utilize the billing data to create a similarity graph. We calculate cosine similarity using the CPI codes (indicative of the service type) as features (physicians may have multiple, each for different services) and the bene_day_srvc_cnt as a value along that feature. Physicians (NPIs) with similar billing records will share similar cpi codes and values. We create a similarity graph based on the cosine sim value, creating an edge when nodes meet a threshold (here, 0.85) and sharing atleast 2 cpi codes in the records. (For performance, we only consider the first 100 nodes in the NPI list)
+
+```{r, warning=F}
+PhyPay = PhyPay[complete.cases(PhyPay)]
+
+#Only consider most commonly billed service
+grp = unique(PhyPay$npi)
+pts=PhyPay[order(PhyPay$npi, PhyPay$bene_day_srvc_cnt, decreasing = TRUE)]
+setkey(pts, npi)
+
+el = matrix(ncol=2)
+for (i in 1:length(grp[1:100])) {
+  npi1 = grp[i]
+  cpt_list = pts[`npi`==npi1]
+  setkey(cpt_list,hcpcs_code)
+  norm1 = sqrt(sum(cpt_list$bene_day_srvc_cnt^2))
+  for (j in 1:length(grp[1:100])) {
+    if (i==j)
+      next
+    npi2 = grp[j]
+    cpt_list2 = pts[`npi`==npi2]
+    setkey(cpt_list2,hcpcs_code)
+    norm2 = sqrt(sum(cpt_list$bene_day_srvc_cnt^2))
+    mapCPT = cpt_list2[cpt_list$hcpcs_code]
+    mapCPT[is.na(mapCPT$bene_day_srvc_cnt)]$bene_day_srvc_cnt=0
+    sim = sum(cpt_list$bene_day_srvc_cnt * mapCPT$bene_day_srvc_cnt)/(norm1*norm2)
+    if (sim >= 0.85 && NROW(mapCPT) >= 2) {
+     el <- rbind(el,c(npi1,npi2))
+    }
+  }
+}
+
+```
+
+Here, we plot the graph colored on specialities. We see some clustering of similar specialities on this graph.
+
+```{r warning=F}
+el = el[-1,]
+g = graph.edgelist(el,directed = F)
+loc  = layout.fruchterman.reingold(g)
+#Plot colored on speciality
+plot(g, vertex.label= NA, layout=loc, vertex.color = as.factor(pts[V(g), mult="first"]$provider_type))
+
+specialities = unique(PhyPay[V(g)]$provider_type)
+s =  specialities[3]
+perVec = 1*((PhyPay[V(g)]$provider_type == s))
+pageSol = page.rank(g, directed = F, personalized = perVec)
+sort(pageSol$vector)
+```
+
+
+Now that we have created a similarity graph based on services billed, we can run a personalized page rank on each speciality (here, Hand Surgery), with NPIs with those specialities forming the source nodes on the search. We expect that those within a speciality be closely connected, so the rank should be high among those within the speciality. However, those outside the speciality with high rank potentially indicate similar billing records to those in the speciality despite not being in that speciality (e.g. a Pathology specialist similar to Hand Surgery).
+```{r warning=F}
+
+specialities = unique(PhyPay[V(g)]$provider_type)
+s =  specialities[3]
+perVec = 1*((PhyPay[V(g)]$provider_type == s))
+pageSol = page.rank(g, directed = F, personalized = perVec)
+sort(pageSol$vector)
+```
+
+Unfortunately, it was difficuly to automatically map these results back to their original values. We will note in this case that the top ranked person, 1992895577, was for Internal Medicine, who is somewhat outside of her speciality.
+
+It would be interesting to see how these "anomalous" individuals fit into the referral networks. Are they close to others in these services outside of their main specialities? Or does the amount of reimbursement given to these outliers seem to distinguish them from others in their speciality? I would love to tie the money and referral trends back to the PageRank method.
