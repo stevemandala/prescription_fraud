@@ -1,17 +1,10 @@
+# Page Rank on prescription data
+# Treats every drug entry in vector uniquely in vector
+
 source("loadData.R")
 library(plotrix)
 
-PhyPay$line_srvc_cnt <- as.numeric(PhyPay$line_srvc_cnt)
-PhyPay$average_Medicare_allowed_amt <- as.numeric(sub("\\$","", PhyPay$average_Medicare_allowed_amt))
-PhyPay$average_submitted_chrg_amt <- as.numeric(sub("\\$","", PhyPay$average_submitted_chrg_amt))
-PhyPay$average_Medicare_payment_amt <- as.numeric(sub("\\$","", PhyPay$average_Medicare_payment_amt))
-PhyPay$diff <-PhyPay$average_submitted_chrg_amt - PhyPay$average_Medicare_allowed_amt
-PhyPay$bene_day_srvc_cnt = as.numeric(PhyPay$bene_day_srvc_cnt)
-
-# PhyPay = PhyPay[!is.na(PhyPay$bene_unique_cnt)]
-# PhyPay = PhyPay[!is.na(PhyPay$hcpcs_code)]
-# PhyPay = PhyPay[!is.na(PhyPay$provider_type)]
-# PhyPay = PhyPay[!is.na(PhyPay$npi)]
+wi_dem2 = read.csv("wi_dem2.tab", sep="\t", header=FALSE)
 
 PhyPay = PhyPay[complete.cases(PhyPay)]
 
@@ -38,7 +31,7 @@ for (i in 1:length(grp[1:100])) {
     mapCPT[is.na(mapCPT$bene_day_srvc_cnt)]$bene_day_srvc_cnt=0
     sim = sum(cpt_list$bene_day_srvc_cnt * mapCPT$bene_day_srvc_cnt)/(norm1*norm2)
     if (sim >= 0.85 && NROW(mapCPT) >= 2) {
-     el <- rbind(el,c(npi1,npi2))
+      el <- rbind(el,c(npi1,npi2))
     }
   }
 }
