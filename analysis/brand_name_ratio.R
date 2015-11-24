@@ -28,3 +28,11 @@ hsd.out <- HSD.test(model,"id", group = T)
 
 bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
 bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
+
+lsd.out$groups
+hsd.out$groups
+
+## You can match the group number with hospital with the data we use
+id.group <- data %>% 
+  select(V20, id) %>%
+  unique()
