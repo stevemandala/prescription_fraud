@@ -1,4 +1,7 @@
 library(dplyr)
+library(agricolae)
+
+# Load data
 wi_dem2 = read.csv("wi_dem2.tab", sep="\t", header=FALSE)
 hospitals = unique(wi_dem2[, 20])
 
@@ -11,3 +14,17 @@ bg_ratios = summarise(grouped_by_hospital,
             sum(as.vector(drug_name) != as.vector(generic_name)) / length(drug_name))
 
 hist(bg_ratios$bg_ratio)
+
+## Doing T-test
+
+## Create an treatment record for HSD test
+data <-grouped_by_hospital
+data <- cbind(data,id=factor(data$V20,labels=1:length(unique(data$V20))))
+## Do LSD & HSD test
+model <- aov(as.numeric(as.vector(drug_name)==as.vector(generic_name)) ~ id, 
+             data = data)
+lsd.out <- LSD.test(model, "id", p.adj = "bonferroni")
+hsd.out <- HSD.test(model,"id", group = T)
+
+bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
+bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
