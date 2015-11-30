@@ -39,18 +39,20 @@ findTheCategories <- function(year){
 ```
 
 ### match the medicine name for each categories
-The medicine is named as Category_medicineName_industryName
+The medicine is named as (Category_)medicineName_industryName
 ```{r}
 #' function medicineFunction
 #'
 #' The Function returns a medicine list containing the categories, medicine and industry
-#' The medicine is named as Category_medicineName_industryName
+#' The medicine is named as (Category_)medicineName_industryName
 #'
 #' 
 #' @param categories.list: the categories.list returned from findTheCategories
+#' @param category.name: TRUE if medicine name has the form Category_medicineName_industryName
+#'                       FALSE if the form medicineName_industryName
 #' @return a list
 
-medicineFunction <- function(categories.list){
+medicineFunction <- function(categories.list, category.name = FALSE){
   lines <- categories.list$lines
   categories <- categories.list$categories
   categories.lineNum <- categories.list$categories.lineNum
@@ -67,7 +69,9 @@ medicineFunction <- function(categories.list){
     # Remove the whitespace
     medicine <- gsub(pattern = "(\\s+)(\\w+.*)", replacement = "\\2", x = medicine)
     # Change the name as Category_medicineName_industryName
-    medicine <- paste0(categories[i-1], "_", medicine)
+    if(category.name = T){
+      medicine <- paste0(categories[i-1], "_", medicine)
+    }   
     medicine.list[[key]] <- medicine
     }
   # Divide the lines into 28 blocks, each block is for one particular category
