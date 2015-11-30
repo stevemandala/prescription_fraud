@@ -1,0 +1,106 @@
+---
+title: "new drug list"
+author: "Zongyan Wang"
+date: "Monday, November 30, 2015"
+output: pdf_document
+---
+# The .Rmd document returns the new drug proved by FDA for specified year
+```{r}
+if (!require("XML")) {
+  install.packages("XML")
+  library("XML") # this produces error if loading package fails
+  }
+```
+## Functions used for this approach
+### find the categories
+```{r}
+#' function findTheCategories
+#'
+#' The Function returns a categories list containing the web lines, categories 
+#' and categories' line numbers
+#'
+#' Attention: the encode is currently set to UTF-8 for year 2013
+#' @param year: the year of interest
+#' @return a list
+findTheCategories <- function(year){
+  URL <- paste0("http://www.centerwatch.com/drug-information/fda-approved-drugs/year/", year)
+  lines = readLines(URL, encoding = "UTF-8")
+  categories.lines <- grep(pattern = "<h3>.*</h3>", x = lines, value = T)
+  categories <- gsub(pattern = "<h3>(.*)</h3>", replacement = "\\1", x = categories.lines)
+  ## Remove the whitespace in the strings
+  categories <- gsub(pattern = " ", replacement = "", x = categories)
+  ## All the categories
+  categories
+  categories.lineNum <- grep(pattern = "<h3>.*</h3>", x = lines)
+  categories.lineNum[length(categories.lineNum) + 1] <- length(lines)
+  return(list(lines = lines, categories = categories, categories.lineNum = categories.lineNum))
+  }
+```
+
+### match the medicine name for each categories
+The medicine is named as Category_medicineName_industryName
+```{r}
+#' function medicineFunction
+#'
+#' The Function returns a medicine list containing the categories, medicine and industry
+#' The medicine is named as Category_medicineName_industryName
+#'
+#' 
+#' @param categories.list: the categories.list returned from findTheCategories
+#' @return a list
+
+medicineFunction <- function(categories.list){
+  lines <- categories.list$lines
+  categories <- categories.list$categories
+  categories.lineNum <- categories.list$categories.lineNum
+  medicine.list <- vector(mode="list", length=length(categories))
+  names(medicine.list) <- categories
+  for(i in 1: length(categories.lineNum)){
+    key <- categories[i]
+    categoryBlock <- lines[categories.lineNum[1]:categories.lineNum[2]]
+    # find all the medicine in one particular block
+    medicine.Line <- grep(pattern = "id=", x = categoryBlock, value = T)
+    medicine.Line
+    medicine <- gsub(pattern = "<p><strong><a id(.*)href(.*)>(.+)</a></strong>; (.*);", 
+                     replacement  = "\\3_\\4", x = medicine.Line)
+    # Remove the whitespace
+    medicine <- gsub(pattern = "(\\s+)(\\w+.*)", replacement = "\\2", x = medicine)
+    # Change the name as Category_medicineName_industryName
+    medicine <- paste0(categories[1], "_", medicine)
+    medicine.list[[key]] <- medicine
+    }
+  # Divide the lines into 28 blocks, each block is for one particular category
+  return(medicine.list)
+  }
+
+```
+## Use the functions to find the data interested
+### Let find the medicine proved by FDA in 2013 first
+```{r}
+categories.list2013 <-findTheCategories(2013)
+medicine.list2013 <- medicineFunction(categories.list)
+medicine.list2013
+```
+
+## medicine proved by FDA in 2012
+```{r}
+categories.list2012 <-findTheCategories(2012)
+medicine.list2012 <- medicineFunction(categories.list)
+medicine.list2012
+```
+
+## medicine proved by FDA in 2011
+```{r}
+categories.list2011 <-findTheCategories(2011)
+medicine.list2011 <- medicineFunction(categories.list)
+medicine.list2011
+```
+
+# how to split the medicine in the list
+medicine.list contains all the medicine proved by FDA in the year
+You can get split the medicine name with the method strsplit()
+```{r}
+medicine.split.example <- strsplit(medicine.list2013[[1]], split = "_")
+medicine.split.example
+```
+
