@@ -106,6 +106,6 @@ medicine.list contains all the medicine proved by FDA in the year
 You can get split the medicine name with the method strsplit()
 ```{r}
 medicine.split.example <- strsplit(medicine.list2013[[1]], split = "_")
-medicine.split.example
+
 ```
 
