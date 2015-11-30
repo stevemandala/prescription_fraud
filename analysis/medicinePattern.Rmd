@@ -32,7 +32,8 @@ findTheCategories <- function(year){
   ## All the categories
   categories
   categories.lineNum <- grep(pattern = "<h3>.*</h3>", x = lines)
-  categories.lineNum[length(categories.lineNum) + 1] <- length(lines)
+  categories.lineNum[length(categories.lineNum) + 1] <- 
+    grep(pattern = "<div id=\"BottomAdZone\">", x = lines) - 1
   return(list(lines = lines, categories = categories, categories.lineNum = categories.lineNum))
   }
 ```
@@ -55,9 +56,9 @@ medicineFunction <- function(categories.list){
   categories.lineNum <- categories.list$categories.lineNum
   medicine.list <- vector(mode="list", length=length(categories))
   names(medicine.list) <- categories
-  for(i in 1: length(categories.lineNum)){
-    key <- categories[i]
-    categoryBlock <- lines[categories.lineNum[1]:categories.lineNum[2]]
+  for(i in 2: length(categories.lineNum)){
+    key <- categories[i-1]
+    categoryBlock <- lines[categories.lineNum[i-1]:categories.lineNum[i]]
     # find all the medicine in one particular block
     medicine.Line <- grep(pattern = "id=", x = categoryBlock, value = T)
     medicine.Line
@@ -66,7 +67,7 @@ medicineFunction <- function(categories.list){
     # Remove the whitespace
     medicine <- gsub(pattern = "(\\s+)(\\w+.*)", replacement = "\\2", x = medicine)
     # Change the name as Category_medicineName_industryName
-    medicine <- paste0(categories[1], "_", medicine)
+    medicine <- paste0(categories[i-1], "_", medicine)
     medicine.list[[key]] <- medicine
     }
   # Divide the lines into 28 blocks, each block is for one particular category
@@ -78,21 +79,21 @@ medicineFunction <- function(categories.list){
 ### Let find the medicine proved by FDA in 2013 first
 ```{r}
 categories.list2013 <-findTheCategories(2013)
-medicine.list2013 <- medicineFunction(categories.list)
+medicine.list2013 <- medicineFunction(categories.list2013)
 medicine.list2013
 ```
 
 ## medicine proved by FDA in 2012
 ```{r}
 categories.list2012 <-findTheCategories(2012)
-medicine.list2012 <- medicineFunction(categories.list)
+medicine.list2012 <- medicineFunction(categories.list2012)
 medicine.list2012
 ```
 
 ## medicine proved by FDA in 2011
 ```{r}
 categories.list2011 <-findTheCategories(2011)
-medicine.list2011 <- medicineFunction(categories.list)
+medicine.list2011 <- medicineFunction(categories.list2011)
 medicine.list2011
 ```
 
