@@ -109,3 +109,54 @@ medicine.split.example <- strsplit(medicine.list2013[[1]], split = "_")
 
 ```
 
+# What about a data frame?
+## build a function
+```{r}
+#' function convertDataFrame
+#'
+#' The Function convert the medicine.list to a data.frame. CSV file output is an option
+#'
+#' 
+#' @param medicine.list
+#' @param output.csv: optional, boolean, true if a .csv is required
+#' @param year: optional, added to the name of .csv output
+#' @return a data.frame
+convertDataFrame <- function(medicine.list, output.csv = FALSE, year = ""){
+  nCol <- length(strsplit(medicine.list[[1]], split = "_")[[1]])
+  medicine.dataframe <- data.frame()
+  for(i in 1: length(medicine.list)){
+    categories <- names(medicine.list[i])
+    split <- strsplit(medicine.list[[i]], split = "_")
+    name <- c()
+    company <- c()
+    categories <- rep(x = categories, times = length(split))
+    for(j in 1:length(split)){
+      if(nCol == 3){
+        name <- c(name, split[[j]][2])
+        company <- c(company, split[[j]][3])
+      }else{
+        name <- c(name, split[[j]][1])
+        company <- c(company, split[[j]][2])
+      }
+    }
+    df <- data.frame(category = categories, name = name, company = company)
+    medicine.dataframe <- rbind(medicine.dataframe, df) 
+  }
+  if(output.csv == T){ 
+    fileName = paste0("medicine_list_", year, ".csv")
+    write.csv(medicine.dataframe, file = fileName, row.names = F)
+    print(paste0(fileName, " has saved successfully into the current enviroment folder."))
+  }
+  return(medicine.dataframe) 
+}
+
+
+
+```
+## Convert 2011 to 2013 file with .csv output
+```{r}
+medicine.dataframe2013 <- convertDataFrame(medicine.list2013, output.csv = T, year = 2013)
+medicine.dataframe2012 <- convertDataFrame(medicine.list2012, output.csv = T, year = 2012)
+medicine.dataframe2011 <- convertDataFrame(medicine.list2011, output.csv = T, year = 2011)
+
+```
