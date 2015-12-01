@@ -58,7 +58,7 @@ def writeAHospital(infile, outfile, hospital):
 
 ### return: {generic_name:[num_brand_names, _num_generics_plus_brand_names]), ...}
 def getBGCountsForAHospital(infile, hospital):
-    outfile = infile + '_'.join(hospital)
+    outfile = infile + '_'.join(hospital.split(" "))
     writeAHospital(infile, outfile, hospital)
     hospital_data = open(outfile)
     reader = csv.reader(hospital_data, delimiter="\t")
