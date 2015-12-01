@@ -103,18 +103,24 @@ def getBGRatioOthers(df, generic, hospital):
 if __name__ == '__main__':
     filename = "../pageRank/data/wi_cardi2.tab"
     hospitals, prescriptions = getHospitalPresHist(filename)
-    print hospitals
-    print prescriptions
 
-    hospitalName = input("Enter a hospital's name(with quotes): ")
-    generic_counts = getBGCountsForAHospital(filename, hospitalName)
-    sorted_generic_counts, bg_ratios = getBGRatiosForGenerics(generic_counts)
-    print sorted_generic_counts
+    while True:
+        print hospitals
+        print prescriptions
 
-    genericName = input("Enter a generic's name(with quotes): ")
-    df = pd.read_csv(filename, sep='\t')
-    others_bgratio = getBGRatioOthers(df, genericName, hospitalName)
+        hospitalName = raw_input("Enter a hospital's name: ")
+        generic_counts = getBGCountsForAHospital(filename, hospitalName)
+        sorted_generic_counts, bg_ratios = getBGRatiosForGenerics(generic_counts)
+        print sorted_generic_counts
 
-    print hospitalName, "\b's bg_ratio on", genericName, "\b:", bg_ratios[genericName]
-    print "Other hospitals' bg_ratio on", genericName, "\b: ", others_bgratio
+        genericName = raw_input("Enter a generic's name: ")
+        df = pd.read_csv(filename, sep='\t')
+        others_bgratio = getBGRatioOthers(df, genericName, hospitalName)
+
+        print hospitalName, "\b's bg_ratio on", genericName, "\b:", bg_ratios[genericName]
+        print "Other hospitals' bg_ratio on", genericName, "\b: ", others_bgratio
+
+        is_continue = raw_input("CONTINUE? ")
+        if not (is_continue == 'yes' or is_continue == 'y'):
+            break
 
