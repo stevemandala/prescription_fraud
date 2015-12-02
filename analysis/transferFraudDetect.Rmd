@@ -1,0 +1,148 @@
+---
+title: "transferFraudDetect"
+author: "Zongyan Wang"
+date: "Tuesday, December 01, 2015"
+output: pdf_document
+---
+```{r}
+### Source from Steve
+require(data.table)
+require(dplyr)
+# Bipartite network on companies and physicians
+
+#tablb = c()
+gen = fread("PGYR13_P063015/OP_DTL_GNRL_PGYR2013_P06302015.csv")
+b= c(rep("character", 6),rep("factor",4), "numeric", rep("factor",6), "character", "character", "character", "numeric", rep("character",2), "factor", "character", "factor", "character", rep("character", 10), rep("factor", 6))
+DT = fread("../National_Downloadable_File.csv", colClasses = b)
+setkey(DT,"Zip Code")
+
+#Match NPIs to entries, since using NPI-compatable data values
+#gen$NPI <- NAs
+#TODO: Parse zipcodes in DT, shorten
+#for (i in 1:length(gen$Physician_Profile_ID)) {
+#  gen[i]$NPI <- DT[`Zip Code`==gen[i]$Recipient_Zip_Code
+#                & `First Name`==gen[i]$Physician_First_Name
+#                & `Last Name`==gen[i]$Physician_Last_Name
+#                ,"NPI"][1]
+#}
+
+#Aggregate on zip code data
+#zip_trans = data.table(ID = gen$Applicable_Manufacturer_or_Applicable_GPO_Making_Payment_ID, 
+#                       zip = gen$Recipient_Zip_Code,trans_amt = gen$Total_Amount_of_Payment_USDollars)
+#total_by_zip = zip_trans[,lapply(.SD,sum),by=list(ID, zip)]
+#Supplementary physician data
+#sup = fread("PHPRFL_P063015/OP_PH_PRFL_SPLMTL_P06302015.csv")
+
+#Aggregated totals across agent IDs
+#idMoney = data.table(gen$Applicable_Manufacturer_or_Applicable_GPO_Making_Payment_Name,gen$Total_Amount_of_Payment_USDollars)
+#total_by_id = idMoney[,lapply(.SD,sum), by=V1]
+
+#Aggregated totals across NPIs
+```
+
+```{r}
+# Upload the medicine released from 2011 - 2013
+medicine2011 <- read.csv("medicine_list_2011.csv")
+medicine2012 <- read.csv("medicine_list_2012.csv")
+medicine2013 <- read.csv("medicine_list_2013.csv")
+
+```
+## Analysis the OP_DTL_GNRL_PGYR2013_P06302015.csv
+```{r}
+names(gen)
+## find any colum relate to Company/ Manufacturer/ industry
+nameCompany <- grep(pattern = "(Company|Manufacturer|Industry)", names(gen), value = T)
+nameCompany
+# find any column relate to drug
+nameDrug <- grep(pattern = "Drug", names(gen), value = T)
+nameDrug
+```
+## Is there any companies releasing new drugs (2011 - 2013) appearing in the data?
+```{r}
+# 2011
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2011$company) %in% gen[, i]))
+}
+## what about the uppercase company name
+company <- toupper(medicine2011$company)
+for(i in 1: length(gen[1,])){
+  print(which(unique(company) %in% gen[, i]))
+}
+# 2012
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2012$company) %in% gen[, i]))
+}
+
+# 2013
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2013$company) %in% gen[, i]))
+}
+```
+## Is there any drug names appearing in our data
+```{r}
+# 2011
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2011$name) %in% gen[, i]))
+}
+
+# 2012
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2012$name) %in% gen[, i]))
+}
+
+# 2013
+for(i in 1: length(gen[1,])){
+  print(which(unique(medicine2013$name) %in% gen[, i]))
+}
+rm(gen)
+```
+There is nothing can be detected.
+
+## Search PartD for new drug released
+```{r}
+partD <- fread("../PartD_Prescriber_PUF_NPI_DRUG_13/PARTD_PRESCRIBER_PUF_NPI_DRUG_13.tab"
+               , sep = "\t")
+names(partD)
+# 2011
+which(unique(medicine2011$name) %in% partD$DRUG_NAME)
+## find the format of partD$DRUG_NAME
+head(partD$DRUG_NAME)
+med2011 <- gsub(pattern = " (\\(.*\\))", replacement = "", x= medicine2011$name)
+## change all to upperCase
+med2011 <- toupper(med2011)
+index2011 <- which(unique(med2011) %in% partD$DRUG_NAME)
+index2011
+use2011 <- medicine2011[index2011,]
+use2011$year <- rep(2011, length(use2011[,1]))
+
+# 2012
+med2012 <- gsub(pattern = " (\\(.*\\))", replacement = "", x= medicine2012$name)
+## change all to upperCase
+med2012 <- toupper(med2012)
+index2012 <- which(unique(med2012) %in% partD$DRUG_NAME)
+index2012
+use2012 <- medicine2013[index2012,]
+use2012$year <- rep(2012, length(use2012[,1]))
+
+# 2013
+med2013 <- gsub(pattern = " (\\(.*\\))", replacement = "", x= medicine2013$name)
+## change all to upperCase
+med2013 <- toupper(med2013)
+index2013 <- which(unique(med2013) %in% partD$DRUG_NAME)
+index2013
+use2013 <- medicine2013[index2013,]
+use2013$year <- rep(2013, length(use2013[,1]))
+```
+merge the drugs used in partD data and save it as "drugused2011-2013.csv"
+```{r}
+drugused2011_2013 <- rbind(use2011, use2012)
+drugused2011_2013 <- rbind(drugused2011_2013, use2013)
+write.csv(drugused2011_2013, file = "drugused2011-2013.csv", row.names = F)
+```
+
+
+## Search referral for anything interesting.
+```{r}
+#referral <- fread("../physician_referrals13-14_inPARTD.csv")
+#head(referral)
+```
