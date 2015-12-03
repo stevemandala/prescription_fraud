@@ -6,6 +6,7 @@
 require(data.table)
 require(plyr)
 require(dplyr)
+require(tidyr)
 require(ggplot2)
 
 setwd("F:/Academic/Stat 992/group project/prescription_fraud")
@@ -13,6 +14,7 @@ partD.new <- fread("PartD_newDrug.csv")
 drug.list <- fread("drugused2011-2013.csv")
 #names(partD.new)
 #names(drug.list)
+
 
 ######################################################
 # convert the format of drug column in drug.list
@@ -22,35 +24,37 @@ drugUse <- function(medicineData){
   return(med)
 }
 med <- drugUse(drug.list) 
-drug.list$name <- med
+drug.list$DRUG_NAME <- med
 #############################################################
 # add "year" and "company" columns
 ## check the overlap
 cat("check the overlap")
-length(drug.list$name)
-length(unique(drug.list$name))
+length(drug.list$DRUG_NAME)
+length(unique(drug.list$DRUG_NAME))
 # There are lots of overlap here. Find them
 cat("There are lots of overlap here. Merge the rows")
-overlapDrug <- which(table(drug.list$name) > 1)
+overlapDrug <- which(table(drug.list$DRUG_NAME) > 1)
 
 c.drug <- function(data){
   category.c = paste(unique(as.character(data$category)), collapse=", ")
   company.c = paste(unique(as.character(data$company)), collapse=", ")
   year.c = paste(unique(as.character(data$year)), collapse=", ")
-  k <- data.frame(name = unique(data$name), category = category.c, 
+  name.c = paste(unique(as.character(data$name)), collapse=", ")
+  k <- data.frame(DRUG_NAME = unique(data$DRUG_NAME), name = name.c,
+                  category = category.c, 
                   company = company.c, year = year.c)
   return(k)
 }
 
 
-df1 <- drug.list %>% ddply(~name, c.drug)
+df1 <- drug.list %>% ddply(~DRUG_NAME, c.drug)
 
 
 # Output the merged data as "combine_drugList.csv"
 write.csv(df1, file = "combine_drugList.csv", row.names = F)
 
 # merge the partD.new with combine_drugList
-colnames(df1)[1] <- "DRUG_NAME" 
+
 df2 <- merge(partD.new, df1, by = "DRUG_NAME")
 #head(df2)
 
@@ -69,16 +73,21 @@ usage <- df2 %>%
 
 # Arrange and reorder the data
 usage <- usage %>%
+  group_by(year) %>%
+  dplyr::mutate(state.reorder = reorder(x = NPPES_PROVIDER_STATE,
+                                        X = usage, FUN = min)) %>%
+  dplyr::arrange(., desc(usage))
+
+usage <- usage %>%
   dplyr::mutate(state.reorder = reorder(x = NPPES_PROVIDER_STATE,
                                         X = usage, FUN = min)) %>%
   dplyr::arrange(., desc(usage))
 
 
-
 usagePlotYear <- ggplot(usage, aes(x = state.reorder, y = usage)) +
   geom_point(aes(color = state.reorder)) +
   geom_text(aes(label = paste0(state.reorder), x = state.reorder, y = usage, 
-                color = state.reorder), size = 3) +
+               color = state.reorder), size = 3) +
   ggtitle("New Drug usage over States and years") +
   facet_wrap(~year)
 
