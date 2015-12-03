@@ -1,101 +1,295 @@
-category,name,company,year
-Cardiology/VascularDiseases,Brilinta (ticagrelor),AstraZeneca ,2011
-Cardiology/VascularDiseases,Edarbi (azilsartan medoxomil),Takeda ,2011
-Cardiology/VascularDiseases,Edarbyclor (azilsartan medoxomil and chlorthalidone),Takeda ,2011
-Cardiology/VascularDiseases,Xarelto (rivaroxaban),Janssen Pharmaceuticals ,2011
-Cardiology/VascularDiseases,Xarelto (rivaroxaban),Bayer ,2011
-Dermatology,Firazyr (icatibant),Shire Pharmaceuticals ,2011
-Dermatology,laViv (azficel-T),Fibrocell Science ,2011
-Dermatology,Sylatron (peginterferon alfa-2b),Merck ,2011
-Dermatology,Yervoy (ipilimumab),Bristol-Myers Squibb ,2011
-Dermatology,Zelboraf (vemurafenib),Roche ,2011
-Endocrinology,Afinitor (everolimus),Novartis ,2011
-Endocrinology,Juvisync (sitagliptin and simvastatin),Merck ,2011
-Endocrinology,Sutent (sunitinib malate),Pfizer ,2011
-Endocrinology,Tradjenta (linagliptin),Boehringer Ingelheim ,2011
-FamilyMedicine,Anturol (oxybutynin) Gel,Antares Pharma ,2011
-FamilyMedicine,Arcapta (indacaterol maleate inhalation powder),Novartis ,2011
-FamilyMedicine,Benlysta (belimumab),Human Genome Sciences ,2011
-FamilyMedicine,Complera (emtricitabine/rilpivirine/tenofovir disoproxil fumarate),Gilead ,2011
-FamilyMedicine,Daliresp (roflumilast),Forest Pharmaceuticals ,2011
-FamilyMedicine,Dificid (fidaxomicin),Optimer Pharmaceuticals ,2011
-FamilyMedicine,Edarbi (azilsartan medoxomil),Takeda ,2011
-FamilyMedicine,Edarbyclor (azilsartan medoxomil and chlorthalidone),Takeda ,2011
-FamilyMedicine,Edurant (rilpivirine),Tibotec ,2011
-FamilyMedicine,Exparel (bupivacaine liposome injectable suspension),Pacira Pharmaceuticals ,2011
-FamilyMedicine,Firazyr (icatibant),Shire Pharmaceuticals ,2011
-FamilyMedicine,Gralise (gabapentin),Abbott Laboratories ,2011
-FamilyMedicine,Horizant (gabapentin enacarbil),GlaxoSmithKline ,2011
-FamilyMedicine,Intermezzo (zolpidem tartrate sublingual tablet),Transcept Pharmaceuticals ,2011
-FamilyMedicine,Juvisync (sitagliptin and simvastatin),Merck ,2011
-FamilyMedicine,Makena (hydroxyprogesterone caproate injection),Hologic ,2011
-FamilyMedicine,Nulojix (belatacept),Bristol-Myers Squibb ,2011
-FamilyMedicine,Onfi (clobazam),Lundbeck ,2011
-FamilyMedicine,Oxecta (oxycodone HCl),Pfizer ,2011
-FamilyMedicine,Soliris (eculizumab),Alexion ,2011
-FamilyMedicine,Tradjenta (linagliptin),Boehringer Ingelheim ,2011
-FamilyMedicine,Vandetanib (vandetanib),AstraZeneca ,2011
-Cardiology/VascularDiseases,Adempas (riociguat),Bayer Healthcare Pharmaceuticals ,2012
-Cardiology/VascularDiseases,Kynamro (mipomersen sodium),Genzyme ,2012
-Cardiology/VascularDiseases,Liptruzet (ezetimibe and atorvastatin),Merck ,2012
-Cardiology/VascularDiseases,Nymalize (nimodipine),Arbor Pharmaceuticals ,2012
-Cardiology/VascularDiseases,Opsumit (macitentan),Actelion Pharmaceuticals ,2012
-Dermatology,Mekinist (trametinib),GlaxoSmithKline ,2012
-Dermatology,Sitavig (acyclovir) buccal tablets,BioAlliance Pharma ,2012
-Dermatology,Tafinlar (dabrafenib),GlaxoSmithKline ,2012
-Dermatology,Valchlor (mechlorethamine) gel,Ceptaris Therapeutics ,2012
-Dermatology,Varithena (polidocanol injectable foam),BTG plc ,2012
-Devices,Breo Ellipta (fluticasone furoate and vilanterol inhalation powder),GlaxoSmithKline ,2012
-Endocrinology,Brisdelle (low-dose paroxetine mesylate),Noven Pharmaceuticals ,2012
-Endocrinology,Duavee (conjugated estrogens/bazedoxifene),Pfizer ,2012
-FamilyMedicine,Actemra (ocilizumab),Genentech ,2012
-FamilyMedicine,Anoro Ellipta (umeclidinium and vilanterol inhalation powder),GlaxoSmithKline ,2012
-FamilyMedicine,Breo Ellipta (fluticasone furoate and vilanterol inhalation powder),GlaxoSmithKline ,2012
-FamilyMedicine,Diclegis (doxylamine succinate + pyridoxine hydrochloride DR tablets),Duchesnay USA ,2012
-FamilyMedicine,Duavee (conjugated estrogens/bazedoxifene),Pfizer ,2012
-FamilyMedicine,Ilaris (canakinumab),Novartis ,2012
-FamilyMedicine,Nesina (alogliptin),Takeda ,2012
-FamilyMedicine,Olysio (simeprevir),Janssen Therapeutics ,2012
-FamilyMedicine,Osphena (ospemifene),Shionogi ,2012
-FamilyMedicine,Quartette (levonorgestrel/ethinyl estradiol and ethinyl estradiol),Teva Pharmaceutical ,2012
-FamilyMedicine,Sitavig (acyclovir) buccal tablets,BioAlliance Pharma ,2012
-FamilyMedicine,Uceris (budesonide),Santarus ,2012
-Gastroenterology,Simponi (golimumab),Janssen Biotech ,2012
-GeneticDisease,"Kineret, anakinra",Swedish Orphan Biovitrum ,2012
-GeneticDisease,Kynamro (mipomersen sodium),Genzyme ,2012
-GeneticDisease,Ravicti (glycerol phenylbutyrate),Hyperion Therapeutics ,2012
-HealthyVolunteers,Flublok (seasonal influenza vaccine),Protein Sciences ,2012
-Hematology,Imbruvica (ibrutinib),Pharmacyclics ,2012
-Hematology,Injectafer (ferric carboxymaltose injection),Luitpold Pharmaceuticals ,2012
-Hematology,Kcentra (Prothrombin Complex Concentrate),CSL Behring ,2012
-Hematology,Nymalize (nimodipine),Arbor Pharmaceuticals ,2012
-Hematology,Pomalyst (pomalidomide),Celgene ,2012
-Hematology,Ravicti (glycerol phenylbutyrate),Hyperion Therapeutics ,2012
-Hematology,Revlimid (lenalidomide),Celgene ,2012
-Hematology,Rixubis (Coagulation Factor IX (Recombinant)],Baxter International ,2012
-Hematology,Tretten (Coagulation Factor XIII A-Subunit [Recombinant]),Novo Nordisk ,2012
-"Hepatology(Liver,Pancreatic,GallBladder)",Sovaldi (sofosbuvir),Gilead Sciences ,2012
-Immunology,Sitavig (acyclovir) buccal tablets,BioAlliance Pharma ,2012
-Cardiology/VascularDiseases,Adempas (riociguat),Bayer Healthcare Pharmaceuticals ,2013
-Cardiology/VascularDiseases,Liptruzet (ezetimibe and atorvastatin),Merck ,2013
-Cardiology/VascularDiseases,Opsumit (macitentan),Actelion Pharmaceuticals ,2013
-Dermatology,Mekinist (trametinib),GlaxoSmithKline ,2013
-Dermatology,Tafinlar (dabrafenib),GlaxoSmithKline ,2013
-Dermatology,Varithena (polidocanol injectable foam),BTG plc ,2013
-Endocrinology,Duavee (conjugated estrogens/bazedoxifene),Pfizer ,2013
-Endocrinology,Invokana (canagliflozin),Janssen Pharmaceuticals ,2013
-Endocrinology,Osphena (ospemifene),Shionogi ,2013
-FamilyMedicine,Diclegis (doxylamine succinate + pyridoxine hydrochloride DR tablets),Duchesnay USA ,2013
-FamilyMedicine,Ilaris (canakinumab),Novartis ,2013
-FamilyMedicine,Invokana (canagliflozin),Janssen Pharmaceuticals ,2013
-FamilyMedicine,Liptruzet (ezetimibe and atorvastatin),Merck ,2013
-FamilyMedicine,Olysio (simeprevir),Janssen Therapeutics ,2013
-FamilyMedicine,Osphena (ospemifene),Shionogi ,2013
-FamilyMedicine,Sitavig (acyclovir) buccal tablets,BioAlliance Pharma ,2013
-Gastroenterology,Stivarga (regorafenib),Bayer ,2013
-Gastroenterology,Uceris (budesonide),Santarus ,2013
-GeneticDisease,Kynamro (mipomersen sodium),Genzyme ,2013
-Hematology,Nymalize (nimodipine),Arbor Pharmaceuticals ,2013
-Hematology,Pomalyst (pomalidomide),Celgene ,2013
-Hematology,Rixubis (Coagulation Factor IX (Recombinant)],Baxter International ,2013
-Hematology,Valchlor (mechlorethamine) gel,Ceptaris Therapeutics ,2013
+"category","name","company","year"
+"Cardiology/VascularDiseases","Brilinta (ticagrelor)","AstraZeneca ",2011
+"Cardiology/VascularDiseases","Edarbi (azilsartan medoxomil)","Takeda ",2011
+"Cardiology/VascularDiseases","Edarbyclor (azilsartan medoxomil and chlorthalidone)","Takeda ",2011
+"Cardiology/VascularDiseases","Xarelto (rivaroxaban)","Janssen Pharmaceuticals ",2011
+"Cardiology/VascularDiseases","Xarelto (rivaroxaban)","Bayer ",2011
+"Dermatology","Firazyr (icatibant)","Shire Pharmaceuticals ",2011
+"Dermatology","Gralise (gabapentin)","Abbott Laboratories ",2011
+"Dermatology","Sylatron (peginterferon alfa-2b)","Merck ",2011
+"Dermatology","Yervoy (ipilimumab)","Bristol-Myers Squibb ",2011
+"Dermatology","Zelboraf (vemurafenib)","Roche ",2011
+"Endocrinology","Afinitor (everolimus)","Novartis ",2011
+"Endocrinology","Juvisync (sitagliptin and simvastatin)","Merck ",2011
+"Endocrinology","Sutent (sunitinib malate)","Pfizer ",2011
+"Endocrinology","Tradjenta (linagliptin)","Boehringer Ingelheim ",2011
+"FamilyMedicine","Abstral (fentanyl sublingual tablets)","ProStrakan ",2011
+"FamilyMedicine","Afinitor (everolimus)","Novartis ",2011
+"FamilyMedicine","Benlysta (belimumab)","Human Genome Sciences ",2011
+"FamilyMedicine","Complera (emtricitabine/rilpivirine/tenofovir disoproxil fumarate)","Gilead ",2011
+"FamilyMedicine","Daliresp (roflumilast)","Forest Pharmaceuticals ",2011
+"FamilyMedicine","Dificid (fidaxomicin)","Optimer Pharmaceuticals ",2011
+"FamilyMedicine","Duexis (ibuprofen and famotidine)","Horizon Pharma ",2011
+"FamilyMedicine","Edarbi (azilsartan medoxomil)","Takeda ",2011
+"FamilyMedicine","Edarbyclor (azilsartan medoxomil and chlorthalidone)","Takeda ",2011
+"FamilyMedicine","Edurant (rilpivirine)","Tibotec ",2011
+"FamilyMedicine","Eylea (aflibercept)","Regeneron Pharmaceuticals ",2011
+"FamilyMedicine","Ferriprox (deferiprone)","Apotex ",2011
+"FamilyMedicine","Firazyr (icatibant)","Shire Pharmaceuticals ",2011
+"FamilyMedicine","Gralise (gabapentin)","Abbott Laboratories ",2011
+"FamilyMedicine","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2011
+"FamilyMedicine","Intermezzo (zolpidem tartrate sublingual tablet)","Transcept Pharmaceuticals ",2011
+"FamilyMedicine","Juvisync (sitagliptin and simvastatin)","Merck ",2011
+"FamilyMedicine","Nulojix (belatacept)","Bristol-Myers Squibb ",2011
+"FamilyMedicine","Onfi (clobazam)","Lundbeck ",2011
+"FamilyMedicine","Oxecta (oxycodone HCl)","Pfizer ",2011
+"FamilyMedicine","Potiga (ezogabine)","Valeant Pharmaceuticals ",2011
+"FamilyMedicine","Soliris (eculizumab)","Alexion ",2011
+"FamilyMedicine","Sutent (sunitinib malate)","Pfizer ",2011
+"FamilyMedicine","Sylatron (peginterferon alfa-2b)","Merck ",2011
+"FamilyMedicine","Tradjenta (linagliptin)","Boehringer Ingelheim ",2011
+"FamilyMedicine","Viibryd (vilazodone hydrochloride)","Clinical Data ",2011
+"FamilyMedicine","Xalkori (crizotinib)","Pfizer ",2011
+"FamilyMedicine","Xarelto (rivaroxaban)","Bayer ",2011
+"FamilyMedicine","Xarelto (rivaroxaban)","Janssen Pharmaceuticals ",2011
+"FamilyMedicine","Yervoy (ipilimumab)","Bristol-Myers Squibb ",2011
+"FamilyMedicine","Zelboraf (vemurafenib)","Roche ",2011
+"FamilyMedicine","Zytiga (abiraterone acetate)","Centocor Ortho Biotech ",2011
+"Gastroenterology","Afinitor (everolimus)","Novartis ",2011
+"Gastroenterology","Dificid (fidaxomicin)","Optimer Pharmaceuticals ",2011
+"Gastroenterology","Duexis (ibuprofen and famotidine)","Horizon Pharma ",2011
+"Gastroenterology","Incivek (telaprevir)","Vertex Pharmaceuticals ",2011
+"Gastroenterology","Sutent (sunitinib malate)","Pfizer ",2011
+"Gastroenterology","Victrelis (boceprevir)","Merck ",2011
+"GeneticDisease","Eylea (aflibercept)","Regeneron Pharmaceuticals ",2011
+"GeneticDisease","Ferriprox (deferiprone)","Apotex ",2011
+"GeneticDisease","Onfi (clobazam)","Lundbeck ",2011
+"GeneticDisease","Potiga (ezogabine)","Valeant Pharmaceuticals ",2011
+"Hematology","Ferriprox (deferiprone)","Apotex ",2011
+"Hematology","Jakafi (ruxolitinib)","Incyte ",2011
+"Hematology","Soliris (eculizumab)","Alexion ",2011
+"Hematology","Xarelto (rivaroxaban)","Bayer ",2011
+"Hepatology(Liver,Pancreatic,GallBladder)","Duexis (ibuprofen and famotidine)","Horizon Pharma ",2011
+"Hepatology(Liver,Pancreatic,GallBladder)","Incivek (telaprevir)","Vertex Pharmaceuticals ",2011
+"Hepatology(Liver,Pancreatic,GallBladder)","Victrelis (boceprevir)","Merck ",2011
+"Immunology","Benlysta (belimumab)","Human Genome Sciences ",2011
+"Immunology","Complera (emtricitabine/rilpivirine/tenofovir disoproxil fumarate)","Gilead ",2011
+"Immunology","Daliresp (roflumilast)","Forest Pharmaceuticals ",2011
+"Immunology","Dificid (fidaxomicin)","Optimer Pharmaceuticals ",2011
+"Immunology","Edurant (rilpivirine)","Tibotec ",2011
+"Immunology","Firazyr (icatibant)","Shire Pharmaceuticals ",2011
+"Immunology","Gralise (gabapentin)","Abbott Laboratories ",2011
+"Immunology","Incivek (telaprevir)","Vertex Pharmaceuticals ",2011
+"Immunology","Nulojix (belatacept)","Bristol-Myers Squibb ",2011
+"Immunology","Victrelis (boceprevir)","Merck ",2011
+"InfectionsandInfectiousDiseases","Afinitor (everolimus)","Novartis ",2011
+"InfectionsandInfectiousDiseases","Complera (emtricitabine/rilpivirine/tenofovir disoproxil fumarate)","Gilead ",2011
+"InfectionsandInfectiousDiseases","Dificid (fidaxomicin)","Optimer Pharmaceuticals ",2011
+"InfectionsandInfectiousDiseases","Edurant (rilpivirine)","Tibotec ",2011
+"InfectionsandInfectiousDiseases","Eylea (aflibercept)","Regeneron Pharmaceuticals ",2011
+"InfectionsandInfectiousDiseases","Firazyr (icatibant)","Shire Pharmaceuticals ",2011
+"InfectionsandInfectiousDiseases","Gralise (gabapentin)","Abbott Laboratories ",2011
+"InfectionsandInfectiousDiseases","Incivek (telaprevir)","Vertex Pharmaceuticals ",2011
+"InfectionsandInfectiousDiseases","Victrelis (boceprevir)","Merck ",2011
+"Musculoskeletal","Actemra (tocilizumab)","Genentech ",2011
+"Musculoskeletal","Duexis (ibuprofen and famotidine)","Horizon Pharma ",2011
+"Nephrology","Nulojix (belatacept)","Bristol-Myers Squibb ",2011
+"Nephrology","Soliris (eculizumab)","Alexion ",2011
+"Neurology","Abstral (fentanyl sublingual tablets)","ProStrakan ",2011
+"Neurology","Gralise (gabapentin)","Abbott Laboratories ",2011
+"Neurology","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2011
+"Neurology","Intermezzo (zolpidem tartrate sublingual tablet)","Transcept Pharmaceuticals ",2011
+"Neurology","Onfi (clobazam)","Lundbeck ",2011
+"Neurology","Oxecta (oxycodone HCl)","Pfizer ",2011
+"Neurology","Potiga (ezogabine)","Valeant Pharmaceuticals ",2011
+"Neurology","Viibryd (vilazodone hydrochloride)","Clinical Data ",2011
+"Oncology","Abstral (fentanyl sublingual tablets)","ProStrakan ",2011
+"Oncology","Afinitor (everolimus)","Novartis ",2011
+"Oncology","Sutent (sunitinib malate)","Pfizer ",2011
+"Oncology","Sylatron (peginterferon alfa-2b)","Merck ",2011
+"Oncology","Xalkori (crizotinib)","Pfizer ",2011
+"Oncology","Yervoy (ipilimumab)","Bristol-Myers Squibb ",2011
+"Oncology","Zelboraf (vemurafenib)","Roche ",2011
+"Oncology","Zytiga (abiraterone acetate)","Centocor Ortho Biotech ",2011
+"Ophthalmology","Eylea (aflibercept)","Regeneron Pharmaceuticals ",2011
+"Pediatrics/Neonatology","Actemra (tocilizumab)","Genentech ",2011
+"Pediatrics/Neonatology","Daliresp (roflumilast)","Forest Pharmaceuticals ",2011
+"Pediatrics/Neonatology","Onfi (clobazam)","Lundbeck ",2011
+"Pharmacology/Toxicology","Oxecta (oxycodone HCl)","Pfizer ",2011
+"Psychiatry/Psychology","Intermezzo (zolpidem tartrate sublingual tablet)","Transcept Pharmaceuticals ",2011
+"Psychiatry/Psychology","Viibryd (vilazodone hydrochloride)","Clinical Data ",2011
+"Pulmonary/RespiratoryDiseases","Daliresp (roflumilast)","Forest Pharmaceuticals ",2011
+"Pulmonary/RespiratoryDiseases","Xalkori (crizotinib)","Pfizer ",2011
+"Rheumatology","Actemra (tocilizumab)","Genentech ",2011
+"Rheumatology","Duexis (ibuprofen and famotidine)","Horizon Pharma ",2011
+"Sleep","Intermezzo (zolpidem tartrate sublingual tablet)","Transcept Pharmaceuticals ",2011
+"Urology","Zytiga (abiraterone acetate)","Centocor Ortho Biotech ",2011
+"Vaccines","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2011
+"Cardiology/VascularDiseases","Eliquis (apixaban)","Bristol-Myers Squibb ",2012
+"Cardiology/VascularDiseases","Juxtapid (lomitapide)","Aegerion Pharmaceuticals ",2012
+"Cardiology/VascularDiseases","Vascepa (icosapent ethyl)","Amarin Pharmaceuticals ",2012
+"Dermatology","Erivedge (vismodegib)","Genentech ",2012
+"Dermatology","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2012
+"Endocrinology","Belviq (lorcaserin hydrochloride)","Arena Pharmaceuticals ",2012
+"Endocrinology","Bydureon (exenatide extended-release for injectable suspension)","Amylin ",2012
+"Endocrinology","Cometriq (cabozantinib)","Exelixis ",2012
+"Endocrinology","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"Endocrinology","Jentadueto (linagliptin plus metformin hydrochloride)","Eli Lilly ",2012
+"Endocrinology","Korlym (mifepristone)","Corcept Therapeutics ",2012
+"Endocrinology","Lucentis (ranibizumab injection)","Genentech ",2012
+"Endocrinology","Qsymia (phentermine + topiramate extended-release)","Vivus ",2012
+"FamilyMedicine","Abraxane (paclitaxel protein-bound particles for injectable suspension)","Celgene ",2012
+"FamilyMedicine","Afinitor (everolimus)","Novartis ",2012
+"FamilyMedicine","Afinitor (everolimus)","Novartis ",2012
+"FamilyMedicine","Aubagio (teriflunomide)","Sanofi Aventis ",2012
+"FamilyMedicine","Bydureon (exenatide extended-release for injectable suspension)","Amylin ",2012
+"FamilyMedicine","Cometriq (cabozantinib)","Exelixis ",2012
+"FamilyMedicine","Cystaran (cysteamine hydrochloride)","Sigma Tau Pharmaceuticals ",2012
+"FamilyMedicine","Dymista (azelastine hydrochloride and fluticasone propionate)","Meda Pharmaceuticals Inc ",2012
+"FamilyMedicine","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"FamilyMedicine","Erivedge (vismodegib)","Genentech ",2012
+"FamilyMedicine","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2012
+"FamilyMedicine","Inlyta (axitinib)","Pfizer ",2012
+"FamilyMedicine","Jentadueto (linagliptin plus metformin hydrochloride)","Eli Lilly ",2012
+"FamilyMedicine","Korlym (mifepristone)","Corcept Therapeutics ",2012
+"FamilyMedicine","Linzess (linaclotide)","Forest Labs and Ironwood Pharmaceuticals ",2012
+"FamilyMedicine","Lucentis (ranibizumab injection)","Genentech ",2012
+"FamilyMedicine","Lyrica (pregabalin)","Pfizer ",2012
+"FamilyMedicine","Myrbetriq (mirabegron)","Astellas Pharma US, Inc ",2012
+"FamilyMedicine","Natazia (estradiol valerate and estradiol valerate/dienogest)","Bayer ",2012
+"FamilyMedicine","Neupro (Rotigotine Transdermal System)","UCB ",2012
+"FamilyMedicine","Perjeta (pertuzumab)","Genentech ",2012
+"FamilyMedicine","Quillivant XR (methylphenidate hydrochloride)","NextWave Pharmaceuticals ",2012
+"FamilyMedicine","Stivarga (regorafenib)","Bayer HealthCare Pharmaceuticals ",2012
+"FamilyMedicine","Stribild (elvitegravir, cobicistat, emtricitabine, tenofovir disoproxil fumarate)","Gilead ",2012
+"FamilyMedicine","Subsys (fentanyl sublingual spray)","Insys Therapeutics ",2012
+"FamilyMedicine","Tudorza Pressair (aclidinium bromide inhalation powder)","Forest Laboratories ",2012
+"FamilyMedicine","Xeljanz (tofacitinib)","Pfizer ",2012
+"FamilyMedicine","Xtandi (enzalutamide)","Medivation ",2012
+"FamilyMedicine","Zaltrap (ziv-aflibercept)","Sanofi-aventis ",2012
+"FamilyMedicine","Zioptan (tafluprost ophthalmic solution)","Merck ",2012
+"Gastroenterology","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"Gastroenterology","Fulyzaq (crofelemer)","Salix Pharmaceuticals ",2012
+"Gastroenterology","Gattex (teduglutide)","NPS Pharmaceuticals ",2012
+"Gastroenterology","Linzess (linaclotide)","Forest Labs and Ironwood Pharmaceuticals ",2012
+"Gastroenterology","Stivarga (regorafenib)","Bayer HealthCare Pharmaceuticals ",2012
+"Gastroenterology","Xtandi (enzalutamide)","Medivation ",2012
+"Gastroenterology","Zaltrap (ziv-aflibercept)","Sanofi-aventis ",2012
+"GeneticDisease","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"GeneticDisease","Juxtapid (lomitapide)","Aegerion Pharmaceuticals ",2012
+"GeneticDisease","Kalydeco (ivacaftor)","Vertex Pharmaceuticals ",2012
+"Hematology","Bosulif (bosutinib)","Pfizer ",2012
+"Hematology","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"Hematology","Iclusig (ponatinib)","Ariad Pharmaceuticals ",2012
+"Hematology","Synribo (omacetaxine mepesuccinate)","Teva Pharmaceutical ",2012
+"Hepatology(Liver,Pancreatic,GallBladder)","Inlyta (axitinib)","Pfizer ",2012
+"Hepatology(Liver,Pancreatic,GallBladder)","Kalydeco (ivacaftor)","Vertex Pharmaceuticals ",2012
+"Immunology","Fulyzaq (crofelemer)","Salix Pharmaceuticals ",2012
+"Immunology","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2012
+"Immunology","Stribild (elvitegravir, cobicistat, emtricitabine, tenofovir disoproxil fumarate)","Gilead ",2012
+"Immunology","Tudorza Pressair (aclidinium bromide inhalation powder)","Forest Laboratories ",2012
+"InfectionsandInfectiousDiseases","Afinitor (everolimus)","Novartis ",2012
+"InfectionsandInfectiousDiseases","Cystaran (cysteamine hydrochloride)","Sigma Tau Pharmaceuticals ",2012
+"InfectionsandInfectiousDiseases","Dymista (azelastine hydrochloride and fluticasone propionate)","Meda Pharmaceuticals Inc ",2012
+"InfectionsandInfectiousDiseases","Fulyzaq (crofelemer)","Salix Pharmaceuticals ",2012
+"InfectionsandInfectiousDiseases","Linzess (linaclotide)","Forest Labs and Ironwood Pharmaceuticals ",2012
+"InfectionsandInfectiousDiseases","Stribild (elvitegravir, cobicistat, emtricitabine, tenofovir disoproxil fumarate)","Gilead ",2012
+"InfectionsandInfectiousDiseases","Tudorza Pressair (aclidinium bromide inhalation powder)","Forest Laboratories ",2012
+"Musculoskeletal","Aubagio (teriflunomide)","Sanofi Aventis ",2012
+"Musculoskeletal","Elelyso (taliglucerase alfa)","Pfizer ",2012
+"Musculoskeletal","Lyrica (pregabalin)","Pfizer ",2012
+"Musculoskeletal","Myrbetriq (mirabegron)","Astellas Pharma US, Inc ",2012
+"Musculoskeletal","Neupro (Rotigotine Transdermal System)","UCB ",2012
+"Musculoskeletal","Votrient (pazopanib)","GlaxoSmithKline ",2012
+"Musculoskeletal","Xeljanz (tofacitinib)","Pfizer ",2012
+"Nephrology","Afinitor (everolimus)","Novartis ",2012
+"Nephrology","Inlyta (axitinib)","Pfizer ",2012
+"Nephrology","Myrbetriq (mirabegron)","Astellas Pharma US, Inc ",2012
+"Nephrology","Stivarga (regorafenib)","Bayer HealthCare Pharmaceuticals ",2012
+"Neurology","Eliquis (apixaban)","Bristol-Myers Squibb ",2012
+"Neurology","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2012
+"Neurology","Lyrica (pregabalin)","Pfizer ",2012
+"Neurology","Neupro (Rotigotine Transdermal System)","UCB ",2012
+"Neurology","Quillivant XR (methylphenidate hydrochloride)","NextWave Pharmaceuticals ",2012
+"Neurology","Subsys (fentanyl sublingual spray)","Insys Therapeutics ",2012
+"NutritionandWeightLoss","Belviq (lorcaserin hydrochloride)","Arena Pharmaceuticals ",2012
+"NutritionandWeightLoss","Bydureon (exenatide extended-release for injectable suspension)","Amylin ",2012
+"NutritionandWeightLoss","Qsymia (phentermine + topiramate extended-release)","Vivus ",2012
+"Obstetrics/Gynecology(Women’sHealth)","Afinitor (everolimus)","Novartis ",2012
+"Obstetrics/Gynecology(Women’sHealth)","Natazia (estradiol valerate and estradiol valerate/dienogest)","Bayer ",2012
+"Obstetrics/Gynecology(Women’sHealth)","Perjeta (pertuzumab)","Genentech ",2012
+"Oncology","Abraxane (paclitaxel protein-bound particles for injectable suspension)","Celgene ",2012
+"Oncology","Afinitor (everolimus)","Novartis ",2012
+"Oncology","Afinitor (everolimus)","Novartis ",2012
+"Oncology","Bosulif (bosutinib)","Pfizer ",2012
+"Oncology","Cometriq (cabozantinib)","Exelixis ",2012
+"Oncology","Erivedge (vismodegib)","Genentech ",2012
+"Oncology","Iclusig (ponatinib)","Ariad Pharmaceuticals ",2012
+"Oncology","Inlyta (axitinib)","Pfizer ",2012
+"Oncology","Perjeta (pertuzumab)","Genentech ",2012
+"Oncology","Stivarga (regorafenib)","Bayer HealthCare Pharmaceuticals ",2012
+"Oncology","Subsys (fentanyl sublingual spray)","Insys Therapeutics ",2012
+"Oncology","Synribo (omacetaxine mepesuccinate)","Teva Pharmaceutical ",2012
+"Oncology","Votrient (pazopanib)","GlaxoSmithKline ",2012
+"Oncology","Xtandi (enzalutamide)","Medivation ",2012
+"Oncology","Zaltrap (ziv-aflibercept)","Sanofi-aventis ",2012
+"Ophthalmology","Cystaran (cysteamine hydrochloride)","Sigma Tau Pharmaceuticals ",2012
+"Ophthalmology","Lucentis (ranibizumab injection)","Genentech ",2012
+"Ophthalmology","Zioptan (tafluprost ophthalmic solution)","Merck ",2012
+"Otolaryngology(Ear,Nose,Throat)","Dymista (azelastine hydrochloride and fluticasone propionate)","Meda Pharmaceuticals Inc ",2012
+"Pediatrics/Neonatology","Quillivant XR (methylphenidate hydrochloride)","NextWave Pharmaceuticals ",2012
+"Psychiatry/Psychology","Qsymia (phentermine + topiramate extended-release)","Vivus ",2012
+"Psychiatry/Psychology","Quillivant XR (methylphenidate hydrochloride)","NextWave Pharmaceuticals ",2012
+"Pulmonary/RespiratoryDiseases","Abraxane (paclitaxel protein-bound particles for injectable suspension)","Celgene ",2012
+"Pulmonary/RespiratoryDiseases","Dymista (azelastine hydrochloride and fluticasone propionate)","Meda Pharmaceuticals Inc ",2012
+"Pulmonary/RespiratoryDiseases","Kalydeco (ivacaftor)","Vertex Pharmaceuticals ",2012
+"Pulmonary/RespiratoryDiseases","Tudorza Pressair (aclidinium bromide inhalation powder)","Forest Laboratories ",2012
+"Rheumatology","Xeljanz (tofacitinib)","Pfizer ",2012
+"Trauma(Emergency,Injury,Surgery)","Lyrica (pregabalin)","Pfizer ",2012
+"Urology","Myrbetriq (mirabegron)","Astellas Pharma US, Inc ",2012
+"Urology","Xtandi (enzalutamide)","Medivation ",2012
+"Vaccines","Horizant (gabapentin enacarbil)","GlaxoSmithKline ",2012
+"Cardiology/VascularDiseases","Adempas (riociguat)","Bayer Healthcare Pharmaceuticals ",2013
+"Cardiology/VascularDiseases","Liptruzet (ezetimibe and atorvastatin)","Merck ",2013
+"Cardiology/VascularDiseases","Opsumit (macitentan)","Actelion Pharmaceuticals ",2013
+"Dermatology","Mekinist (trametinib)","GlaxoSmithKline ",2013
+"Dermatology","Tafinlar (dabrafenib)","GlaxoSmithKline ",2013
+"Devices","Breo Ellipta (fluticasone furoate and vilanterol inhalation powder)","GlaxoSmithKline ",2013
+"Endocrinology","Invokana (canagliflozin)","Janssen Pharmaceuticals ",2013
+"Endocrinology","Nesina (alogliptin)","Takeda ",2013
+"FamilyMedicine","Actemra (ocilizumab)","Genentech ",2013
+"FamilyMedicine","Breo Ellipta (fluticasone furoate and vilanterol inhalation powder)","GlaxoSmithKline ",2013
+"FamilyMedicine","Ilaris (canakinumab)","Novartis ",2013
+"FamilyMedicine","Invokana (canagliflozin)","Janssen Pharmaceuticals ",2013
+"FamilyMedicine","Liptruzet (ezetimibe and atorvastatin)","Merck ",2013
+"FamilyMedicine","Nesina (alogliptin)","Takeda ",2013
+"FamilyMedicine","Sovaldi (sofosbuvir)","Gilead Sciences ",2013
+"FamilyMedicine","Tecfidera (dimethyl fumarate)","Biogen Idec ",2013
+"FamilyMedicine","Uceris (budesonide)","Santarus ",2013
+"Gastroenterology","Simponi (golimumab)","Janssen Biotech ",2013
+"Gastroenterology","Stivarga (regorafenib)","Bayer ",2013
+"Gastroenterology","Uceris (budesonide)","Santarus ",2013
+"GeneticDisease","Ravicti (glycerol phenylbutyrate)","Hyperion Therapeutics ",2013
+"Hematology","Pomalyst (pomalidomide)","Celgene ",2013
+"Hematology","Ravicti (glycerol phenylbutyrate)","Hyperion Therapeutics ",2013
+"Hematology","Revlimid (lenalidomide)","Celgene ",2013
+"Hepatology(Liver,Pancreatic,GallBladder)","Sovaldi (sofosbuvir)","Gilead Sciences ",2013
+"Immunology","Simponi (golimumab)","Janssen Biotech ",2013
+"Immunology","Tecfidera (dimethyl fumarate)","Biogen Idec ",2013
+"Immunology","Tivicay (dolutegravir)","ViiV HealthCare ",2013
+"InfectionsandInfectiousDiseases","Sovaldi (sofosbuvir)","Gilead Sciences ",2013
+"Musculoskeletal","Actemra (ocilizumab)","Genentech ",2013
+"Musculoskeletal","Ilaris (canakinumab)","Novartis ",2013
+"Musculoskeletal","Tecfidera (dimethyl fumarate)","Biogen Idec ",2013
+"Neurology","Zubsolv (buprenorphine and naloxone)","Orexo AB ",2013
+"NutritionandWeightLoss","Nesina (alogliptin)","Takeda ",2013
+"Obstetrics/Gynecology(Women’sHealth)","Kadcyla (ado-trastuzumab emtansine)","Genentech ",2013
+"Oncology","Kadcyla (ado-trastuzumab emtansine)","Genentech ",2013
+"Oncology","Mekinist (trametinib)","GlaxoSmithKline ",2013
+"Oncology","Pomalyst (pomalidomide)","Celgene ",2013
+"Oncology","Revlimid (lenalidomide)","Celgene ",2013
+"Oncology","Stivarga (regorafenib)","Bayer ",2013
+"Oncology","Tafinlar (dabrafenib)","GlaxoSmithKline ",2013
+"Oncology","Xgeva (denosumab)","Amgen ",2013
+"Orthopedics/OrthopedicSurgery","Xgeva (denosumab)","Amgen ",2013
+"Pediatrics/Neonatology","Actemra (ocilizumab)","Genentech ",2013
+"Pediatrics/Neonatology","Ilaris (canakinumab)","Novartis ",2013
+"Pediatrics/Neonatology","Ravicti (glycerol phenylbutyrate)","Hyperion Therapeutics ",2013
+"Pediatrics/Neonatology","Tivicay (dolutegravir)","ViiV HealthCare ",2013
+"Psychiatry/Psychology","Brintellix (vortioxetine)","Takeda Pharmaceuticals USA ",2013
+"Psychiatry/Psychology","Zubsolv (buprenorphine and naloxone)","Orexo AB ",2013
+"Pulmonary/RespiratoryDiseases","Adempas (riociguat)","Bayer Healthcare Pharmaceuticals ",2013
+"Pulmonary/RespiratoryDiseases","Breo Ellipta (fluticasone furoate and vilanterol inhalation powder)","GlaxoSmithKline ",2013
+"Pulmonary/RespiratoryDiseases","Opsumit (macitentan)","Actelion Pharmaceuticals ",2013
+"Rheumatology","Actemra (ocilizumab)","Genentech ",2013
+"Rheumatology","Ilaris (canakinumab)","Novartis ",2013
