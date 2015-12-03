@@ -20,6 +20,9 @@ We will also look at what the role those physician play in the referral data.\
 ## Where those physicians' from? 
 ```{r}
 source("newDrug_States.R")
+```
+
+```{r}
 source("Combine_PartD_drugList.R")
 ```
 
