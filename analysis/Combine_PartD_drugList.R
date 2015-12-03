@@ -45,7 +45,7 @@ c.drug <- function(data){
 
 df1 <- drug.list %>% ddply(~name, c.drug)
 
-<<<<<<< HEAD
+
 # Output the merged data as "combine_drugList.csv"
 write.csv(df1, file = "combine_drugList.csv", row.names = F)
 
@@ -57,7 +57,34 @@ df2 <- merge(partD.new, df1, by = "DRUG_NAME")
 
 # Output the merge partD as "partD_mergeWith_drug.list.csv"
 write.csv(df2, file = "partD_mergeWith_drug.list.csv", row.names = F)
-=======
-# Output the combine data as "combine_drugList.csv"
-write.csv(df1, file = "combine_drugList.csv", row.names = F)
->>>>>>> b0c5307cb9b3bacf7814a8ae3e0da0b9c009ad1e
+
+# Recall where the physician from?
+############################################################
+# Where are those physicians from? Usage
+
+#usage <- partD.new %>% ddply(~NPPES_PROVIDER_STATE, function(x){length(x$NPI)})
+usage <- df2 %>%
+  group_by(NPPES_PROVIDER_STATE, year) %>% 
+  summarise(usage = length(.$NPI))
+
+# Arrange and reorder the data
+usage <- usage %>%
+  dplyr::mutate(state.reorder = reorder(x = NPPES_PROVIDER_STATE,
+                                        X = usage, FUN = min)) %>%
+  dplyr::arrange(., desc(usage))
+
+
+
+usagePlotYear <- ggplot(usage, aes(x = state.reorder, y = usage)) +
+  geom_point(aes(color = state.reorder)) +
+  geom_text(aes(label = paste0(state.reorder), x = state.reorder, y = usage, 
+                color = state.reorder), size = 3) +
+  ggtitle("New Drug usage over States and years") +
+  facet_wrap(~year)
+
+cat("The total new drug total usage over States and years \n")
+print(usagePlotYear)
+## Save the plot as "newDrug_Usage_plot_state.png"
+ggsave(filename = "newDrug_Usage_plot_state_year.png", plot = usagePlotYear, path = ".",  
+       width = 10, height = 10, dpi = 600)
+
