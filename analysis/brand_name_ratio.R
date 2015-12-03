@@ -4,26 +4,33 @@ hospitals = unique(toy_data[, 20])
 
 grouped_by_hospital = toy_data %>% 
   group_by(V20) %>%
-  select(drug_name = V8, generic_name = V9) 
+  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
 
 bg_ratios = summarise(grouped_by_hospital, 
-          bg_ratio = 
-            sum(as.vector(drug_name) != as.vector(generic_name)) / length(drug_name))
+ bg_ratio = 
+  sum(total_claim_cnt[as.vector(drug_name) != as.vector(generic_name)]) / 
+   sum(total_claim_cnt))
 
-hist(bg_ratios$bg_ratio)
+hist(bg_ratios$bg_ratio, main = "Overall b/g ratios in each hospital, WI cardi")
 
 # number of prescriptions made by each hospital
-hostpital_pres = c(16, 19, 23, 24, 27, 27, 27, 29, 33, 36, 37, 40, 41, 44, 48, 50, 54, 54, 74, 83, 84, 84, 86, 86, 88, 89, 89, 90, 92, 98, 105, 106, 107, 116, 122, 135, 137, 138, 156, 168, 173, 184, 190, 219, 233, 237, 276, 303, 306, 312, 319, 320, 321, 323, 324, 359, 384, 517, 521, 560, 1693)
+hostpital_pres = c(345,    583,    891,    907,   1015,   1018,   1294,   1339,   1546,   1603,
+                       1679,   1783,   1927,   2159,   2282,   2507,   3513,   3760,   3905,   4026,
+                       4181,   4504,   4584,   5028,   5095,   5208,   5336,   5629,   6351,   6558,
+                       6570,   6596,   6703,   6862,   8241,   8599,   9405,  10178,  10726,  11179,
+                       11211,  13023,  14222,  14509,  15540,  16048,  16442,  16821,  17261,  17745,
+                       20220,  22150,  23099,  23574,  24256,  29151,  31161,  31579,  32015,  34093,
+                       137068)
 hist(hostpital_pres)
 ### Well, it seems AURORA MEDICAL GROUP INC is a huge outlier of prescription number
 out = toy_data[toy_data$V20=="AURORA MEDICAL GROUP INC", ]
-bg_ratio = sum(as.vector(out$V8) != as.vector(out$V9)) / length(out$V8)
-# about 0.439 -- totally normal
+( bg_ratio = sum(out$V11[as.vector(out$V8) != as.vector(out$V9)]) / sum(out$V11) )
+# about 0.2836402 -- totally normal
 aurora = read.csv("../pageRank/data/wi_AURORA.tab", sep="\t", header=FALSE)
 
 names(table(aurora$V8)[1])
 
 others = toy_data[which(toy_data$V20 != "AURORA MEDICAL GROUP INC"), ]
-others_thisDrug = others[others$V9=="METOPROLOL SUCCINATE", 8:9]
-(total_ratio = sum(as.vector(others_thisDrug$V8) != as.vector(others_thisDrug$V9)) / 
-  dim(others_thisDrug)[1])
+others_thisDrug = others[others$V9=="METOPROLOL SUCCINATE", c(8,9,11)]
+( total_ratio = sum(others_thisDrug$V11[as.vector(others_thisDrug$V8) != as.vector(others_thisDrug$V9)]) / 
+  sum(others_thisDrug$V11) )

@@ -15,10 +15,11 @@ def getHospitalPresHist(filename):
     hospitals = {}
     for line in reader:
         h = line[-2]
+        claim_cnt = int(line[10])  # total claim count for a drug
         if (hospitals.has_key(h)):
-            hospitals[h] += 1
+            hospitals[h] += claim_cnt
         else:
-            hospitals[h] = 1
+            hospitals[h] = claim_cnt
 
     f.close()
     #list of tuples, sorted by value
@@ -66,12 +67,13 @@ def getBGCountsForAHospital(infile, hospital):
     for line in reader:
         brand = line[7]
         generic = line[8]
+        claim_cnt = int(line[10])
         if (generic_counts.has_key(generic)):
-            generic_counts[generic][1] += 1
+            generic_counts[generic][1] += claim_cnt
         else:
-            generic_counts[generic] = [0, 1]
+            generic_counts[generic] = [0, claim_cnt]
         if (brand != generic):
-            generic_counts[generic][0] += 1
+            generic_counts[generic][0] += claim_cnt
 
     return generic_counts
 
@@ -93,11 +95,12 @@ def getBGRatioOthers(df, generic, hospital):
     not_hospital = np.array(df[[19]] != hospital)
     others = df[not_hospital]
     is_generic = np.array(others[[8]] == generic)
-    others_thisDrug = others[is_generic][[7,8]]
-    others_thisDrug.columns = ["drug_name", "generic_name"]
-    brands = sum(others_thisDrug["drug_name"] != others_thisDrug["generic_name"])
-    total = len(others_thisDrug["drug_name"])
-    return brands / total
+    others_thisDrug = others[is_generic][[7,8,10]]
+    others_thisDrug.columns = ["drug_name", "generic_name", "total_claim_cnt"]
+    brands = sum(others_thisDrug[others_thisDrug["drug_name"] != 
+        others_thisDrug["generic_name"]]["total_claim_cnt"])
+    total = sum(others_thisDrug["total_claim_cnt"])
+    return brands / total, (brands, total)
 
 
 if __name__ == '__main__':
@@ -115,10 +118,10 @@ if __name__ == '__main__':
 
         genericName = raw_input("Enter a generic's name: ")
         df = pd.read_csv(filename, sep='\t')
-        others_bgratio = getBGRatioOthers(df, genericName, hospitalName)
+        others_bgratio, counts = getBGRatioOthers(df, genericName, hospitalName)
 
-        print hospitalName, "\b's bg_ratio on", genericName, "\b:", bg_ratios[genericName]
-        print "Other hospitals' bg_ratio on", genericName, "\b: ", others_bgratio
+        print hospitalName, "\b's bg_ratio on", genericName, "\b:", bg_ratios[genericName], generic_counts[genericName]
+        print "Other hospitals' bg_ratio on", genericName, "\b: ", others_bgratio, counts
 
         is_continue = raw_input("CONTINUE? ")
         if not (is_continue == 'yes' or is_continue == 'y'):
