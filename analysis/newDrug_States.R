@@ -2,7 +2,6 @@
 
 #####################################################
 # Load packages
-require(downloader)
 require(data.table)
 require(ggplot2)
 require(plyr)
@@ -11,10 +10,8 @@ require(dplyr)
 # Download and Load PartD_newDrug.csv
 setwd("F:/Academic/Stat 992/group project/prescription_fraud")
 partD.new <- fread("PartD_newDrug.csv")
-names(partD.new)
-#############################################################
 
-
+############################################################
 # Where are those physicians from? Usage
 
 #usage <- partD.new %>% ddply(~NPPES_PROVIDER_STATE, function(x){length(x$NPI)})
