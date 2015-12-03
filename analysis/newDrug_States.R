@@ -33,8 +33,9 @@ usage <- usage %>%
 usagePlot <- ggplot(usage, aes(x = state.reorder, y = usage)) +
   geom_point(aes(color = state.reorder)) +
   geom_text(aes(label = paste0(state.reorder), x = state.reorder, y = usage, 
-                color = state.reorder), size = 3)
-cat("The total new drug usage over States \n")
+                color = state.reorder), size = 3) +
+  ggtitle("New Drug usage over States")
+cat("The total new drug total usage over States \n")
 print(usagePlot)
 ## Save the plot as "newDrug_Usage_plot_state.png"
 ggsave(filename = "newDrug_Usage_plot_state.png", plot = usagePlot, path = ".",  
