@@ -45,6 +45,7 @@ c.drug <- function(data){
 
 df1 <- drug.list %>% ddply(~name, c.drug)
 
+<<<<<<< HEAD
 # Output the merged data as "combine_drugList.csv"
 write.csv(df1, file = "combine_drugList.csv", row.names = F)
 
@@ -56,3 +57,7 @@ df2 <- merge(partD.new, df1, by = "DRUG_NAME")
 
 # Output the merge partD as "partD_mergeWith_drug.list.csv"
 write.csv(df2, file = "partD_mergeWith_drug.list.csv", row.names = F)
+=======
+# Output the combine data as "combine_drugList.csv"
+write.csv(df1, file = "combine_drugList.csv", row.names = F)
+>>>>>>> b0c5307cb9b3bacf7814a8ae3e0da0b9c009ad1e
