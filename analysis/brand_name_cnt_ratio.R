@@ -5,6 +5,10 @@ library(dplyr)
 phy_drugs = read.csv("wi_cardi2.tab", sep="\t", header=FALSE)
 hospitals = unique(wi_dem2[, 20])
 
+setkey(DT,NPI)
+
+phy_drugs$zip = DT[as.character(phy_drugs$V1)]$`Zip Code` 
+
 grouped_by_hospital = phy_drugs %>% 
   group_by(V20) %>%
   select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 

@@ -10,6 +10,7 @@ opDT$Recipient_Zip_Code = clean.zipcodes(opDT$Recipient_Zip_Code)
 #Load physician data table
 b= c(rep("character", 6),rep("factor",4), "numeric", rep("factor",6), "character", "character", "character", "numeric", rep("character",2), "factor", "character", "factor", "character", rep("character", 10), rep("factor", 6))
 DT = fread("National_Downloadable_File.csv", colClasses = b)
+colnames(DT)[1] = "NPI"
 DT$`Zip Code` = substr(DT$`Zip Code`, start = 1, stop = 5)
 setkey(DT,"Zip Code")
 
@@ -36,7 +37,7 @@ tmp = data.table(ID = opDT$Applicable_Manufacturer_or_Applicable_GPO_Making_Paym
                  zip = opDT$Recipient_Zip_Code,trans_amt = opDT$Total_Amount_of_Payment_USDollars)
 ID_to_zip = tmp[,lapply(.SD,sum),by=list(ID, zip)]
 total_by_zip = ID_to_zip[,lapply(.SD,sum),by=zip, .SDcols = c("trans_amt")]
-setkey(total_by_zip)
+setkey(total_by_zip,zip)
 
 toatl#Gets payments to a specific hospital
 op_get_payments_by_zip <- function(zip) {
