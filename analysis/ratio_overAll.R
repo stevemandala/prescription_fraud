@@ -5,6 +5,7 @@
 require(data.table)
 require(plyr)
 require(dplyr)
+require(ggplot2)
 
 # Load data
 
@@ -20,8 +21,7 @@ ratio <- function(x, weight = F){
   if(weight){
     x$weight = x$TOTAL_CLAIM_COUNT
   }else{
-    x <- x %>%
-      dplyr::mutate(weight = 1)
+    x <- x %>%dplyr::mutate(weight = 1)
   } 
   x <- x %>% 
     summarize(bNotG = sum((DRUG_NAME != GENERIC_NAME)*weight)/ sum(weight))
@@ -34,3 +34,4 @@ ratio_withWeight <- partD %>% ddply("NPPES_PROVIDER_STATE",
 # Output those two data frame in "ratio_withoutWeight.csv" and "ratio_withWeight.csv"
 write.csv(ratio_withoutWeight, file = "ratio_withoutWeight.csv", row.names = F)
 write.csv(ratio_withWeight, file= "ratio_withWeight.csv", row.names = F)
+
