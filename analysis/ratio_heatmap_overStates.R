@@ -31,10 +31,16 @@ dropArea <- function(x){
 }
 
 ## Make every alphabet to lower case
-Low <- function(x, state = state){
-  x$region <- state$full[which(x$NPPES_PROVIDER_STATE %in% state$abb)]
+low <- function(x, state = state){
+  index <- grep(pattern = as.character(x$NPPES_PROVIDER_STATE), state$abb)
+  x$region <- state$full[index]
   x$region <- tolower(x$region)
   return(x)
+}
+
+Low <- function(data, state = state){
+  y <- data %>% ddply(~NPPES_PROVIDER_STATE, function(x){low(x, state)})
+  return(y)
 }
 
 # Get Average Latitude and Longitude for US States
