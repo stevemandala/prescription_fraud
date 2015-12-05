@@ -37,6 +37,16 @@ Low <- function(x, state = state){
   return(x)
 }
 
+# Get Average Latitude and Longitude for US States
+location <- read.csv("state_latlon.csv")
+names(location)[1] <- c("NPPES_PROVIDER_STATE")
+
+loc <- function(x, location = location){
+  x <- merge(x, location, by = "NPPES_PROVIDER_STATE")
+  return(x)
+}
+
+
 
 ## Plot USA map
 heatmap <- function(x){
@@ -47,6 +57,8 @@ heatmap <- function(x){
     geom_polygon(aes(fill= bNotG))+
     geom_path()+ 
     scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+    geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
+              size=3) +
     coord_map()
   myPlot
   return(myPlot)
@@ -56,6 +68,7 @@ heatmap <- function(x){
 ## Draw without weight
 y <- dropArea(ratio_noWeight)
 y <- Low(y, state = state)
+y <- loc(y, location)
 heatmap_noWeight <- heatmap(y)
 print(heatmap_noWeight)
 ggsave(filename = "heatmap_withoutWeight.png", plot = last_plot(), path = ".",  
@@ -65,7 +78,9 @@ ggsave(filename = "heatmap_withoutWeight.png", plot = last_plot(), path = ".",
 ## Draw and ave with weight
 y <- dropArea(ratio_withWeight)
 y <- Low(y, state = state)
+y <- loc(y, location)
 heatmap_weight <- heatmap(y)
 print(heatmap_weight)
 ggsave(filename = "heatmap_weight.png", plot = last_plot(), path = ".",  
        width = 10, height = 10, dpi = 600)
+
