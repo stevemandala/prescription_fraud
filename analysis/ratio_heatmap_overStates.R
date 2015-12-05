@@ -62,7 +62,7 @@ heatmap <- function(x){
   myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
     geom_polygon(aes(fill= bNotG))+
     geom_path()+ 
-    scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+    scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
     geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
               size=3) +
     coord_map()
