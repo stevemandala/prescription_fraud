@@ -1,3 +1,5 @@
+# Calculates the 
+
 #Note: While the metric of brand_name != generic_name is generally affective, there are some 
 # outliers to consider, such as when a substring of the total name is used as "brand name"
 
