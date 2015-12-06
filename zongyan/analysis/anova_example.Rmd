@@ -1,0 +1,71 @@
+---
+title: "anova_example"
+author: "Zongyan Wang"
+date: "Sunday, December 06, 2015"
+output: pdf_document
+---
+# This document gives the example on how to do ANOVA and LSD(HSD) upon different hospital
+## Load package
+```{r}
+library(data.table)
+library(dplyr)
+library(agricolae)
+```
+
+## data loading and clean
+```{r}
+phy_drugs = fread("F:/Academic/Stat 992/group project/toy_data/wi_cardi2.tab", sep="\t", header=FALSE)
+hospitals = unique(phy_drugs[, 20])
+setkey(phy_drugs,V1)
+#phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
+phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+
+#First aggregate ratios over physicians 
+grouped_by_physician = phy_drugs %>% 
+  group_by(V1) %>%
+  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
+
+#Calculates ratios based on number of brand name vs total claims
+phy_bg_ratios = summarise(grouped_by_physician, 
+                          bg_ratio = (sum(as.vector(total_claim_cnt[as.vector(drug_name) != as.vector(generic_name)]))/sum(as.vector(total_claim_cnt)))
+)
+
+phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
+
+```
+
+
+
+
+## ANOVA
+```{r}
+data <-phy_bg_ratios
+data <- cbind(data,trt=factor(data$hospital,labels=1:length(unique(data$hospital))))
+model <- aov(bg_ratio ~ trt, data = data)
+
+```
+The result shows there are significant different among hospital.
+
+
+## Doing LSD and HSD test
+```{r}
+lsd.out <- LSD.test(model, "trt", p.adj = "bonferroni")
+hsd.out <- HSD.test(model,"trt", group = T)
+
+bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
+bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
+
+#lsd.out$groups
+#hsd.out$groups
+```
+
+
+## You can match the group number with hospital with the data we use
+```{r}
+id.group <- data %>% 
+  select(hospital, trt) %>%
+  unique()
+hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
+hsd.out$groups.id
+```
+This can also be applied to LSD
