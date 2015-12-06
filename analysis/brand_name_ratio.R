@@ -28,6 +28,8 @@ out = toy_data[toy_data$V20=="AURORA MEDICAL GROUP INC", ]
 # about 0.2836402 -- totally normal
 aurora = read.csv("../pageRank/data/wi_AURORA.tab", sep="\t", header=FALSE)
 
+aurora_METSUC = aurora[aurora$V9=="METOPROLOL SUCCINATE", c(8,9,11)]
+
 names(table(aurora$V8)[1])
 
 others = toy_data[which(toy_data$V20 != "AURORA MEDICAL GROUP INC"), ]
