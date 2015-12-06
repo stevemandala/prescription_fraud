@@ -50,13 +50,15 @@ with open("internal_referral1.csv", "a") as inter_refer:
                     writer.writerows([referral])
                     saveToFile = True
                     continue
-
+                if int(referral[0]) in not_dic:
+                    saveToFile = False
+                    continue
                 if referral[0] in NPI:
                     writer.writerows([referral])
                     saveToFile = True
                     dic[int(referral[0])] = referral[0]
                 else:
-                    # not_dic[int(referral[0])] = referral[0]
+                    not_dic[int(referral[0])] = referral[0]
                     saveToFile = False
 
 print("the referral data contains the physician who gives referral is Internal Medicine "
