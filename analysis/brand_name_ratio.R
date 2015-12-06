@@ -36,3 +36,29 @@ others = toy_data[which(toy_data$V20 != "AURORA MEDICAL GROUP INC"), ]
 others_thisDrug = others[others$V9=="METOPROLOL SUCCINATE", c(8,9,11)]
 ( total_ratio = sum(others_thisDrug$V11[as.vector(others_thisDrug$V8) != as.vector(others_thisDrug$V9)]) / 
   sum(others_thisDrug$V11) )
+hist(bg_ratios$bg_ratio)
+
+## Doing T-test
+
+## Create an treatment record for HSD test
+data <-grouped_by_hospital
+data <- cbind(data,trt=factor(data$V20,labels=1:length(unique(data$V20))))
+## Do LSD & HSD test
+model <- aov(as.numeric(as.vector(drug_name)==as.vector(generic_name)) ~ trt, 
+             data = data)
+lsd.out <- LSD.test(model, "trt", p.adj = "bonferroni")
+hsd.out <- HSD.test(model,"trt", group = T)
+
+bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
+bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
+
+lsd.out$groups
+hsd.out$groups
+
+## You can match the group number with hospital with the data we use
+id.group <- data %>% 
+  select(V20, trt) %>%
+  unique()
+hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
+hsd.out$groups.id
+
