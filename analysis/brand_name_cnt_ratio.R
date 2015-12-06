@@ -3,11 +3,11 @@
 
 library(dplyr)
 phy_drugs = read.csv("wi_cardi2.tab", sep="\t", header=FALSE)
-hospitals = unique(wi_dem2[, 20])
+hospitals = unique(phy_drugs[, 20])
 
 setkey(DT,NPI)
 
-phy_drugs$zip = DT[as.character(phy_drugs$V1)]$`Zip Code` 
+phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
 
 grouped_by_hospital = phy_drugs %>% 
   group_by(V20) %>%
