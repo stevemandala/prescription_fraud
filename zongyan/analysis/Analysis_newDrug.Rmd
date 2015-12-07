@@ -1,0 +1,29 @@
+---
+title: "ratio_smallPartD"
+author: "Zongyan Wang"
+date: "Thursday, December 03, 2015"
+output: pdf_document
+---
+
+#This document will load the PartD_newDrug.csv output by PartD_data_drug_pickout.R. 
+
+Where those physicians' from? \
+
+What is ratio of brand_name / generic_name in this small PartD dataset, is it higher than the average of the rest of the dataset.\
+
+Are the physicians appearing in this small PartD use brand_name produced in one medical company very often?\
+
+We will also look at what the role those physician play in the referral data.\
+
+
+# Our analysis begin here.
+## Where those physicians' from? 
+```{r}
+source("newDrug_States.R")
+```
+
+```{r}
+source("Combine_PartD_drugList.R")
+```
+
+
