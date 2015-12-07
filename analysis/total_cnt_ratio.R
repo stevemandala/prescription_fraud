@@ -27,11 +27,11 @@ grouped_by_hospital = phy_bg_ratios %>%
   select(ratio = bg_ratio) 
 
 #Calculates ratios based on number of brand name vs total claims
-hosp_bg_ratios = summarise(grouped_by_hospital, 
-      average_ratio = mean(ratio),
-      ratio_std = sd(ratio)
-      )
-   
+# hosp_bg_ratios = summarise(grouped_by_hospital, 
+#       average_ratio = mean(ratio),
+#       ratio_std = sd(ratio)
+#       )
+#    
 hist(hosp_bg_ratios$average_ratio)
 hist(hosp_bg_ratios$ratio_std/hosp_bg_ratios$average_ratio)
 
