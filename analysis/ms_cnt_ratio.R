@@ -2,7 +2,12 @@
 # outliers to consider, such as when a substring of the total name is used as "brand name"
 library(igraph)
 library(dplyr)
-phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
+library(data.table)
+library(Matrix)
+library(rARPACK)
+library(zipcode)
+
+phy_drugs = fread("ny_cardi2.tab", sep="\t", header=FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 #phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
@@ -34,6 +39,8 @@ hist(hosp_bg_ratios$average_ratio)
 hist(hosp_bg_ratios$ratio_std/hosp_bg_ratios$average_ratio)
 # Ratio variance by hospital
 
+
+#Graph coloring to visualize ratios
 wi_card = wi[unique(as.character(phy_drugs$V1))]
 setkey(Ewi,V1)
 Ewi = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
@@ -47,5 +54,5 @@ range01 <- function(x){1-(x-min(x))/(max(x)-min(x))}
 
 locs = layout.fruchterman.reingold(g)
 setkey(phy_bg_ratios,V1)
-coloring = gray(range01(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio), alpha = 1)
+coloring = gray(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio, alpha = 1)
 plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
