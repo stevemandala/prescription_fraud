@@ -12,7 +12,8 @@ output: pdf_document
 ```{r}
 library(data.table)
 library(dplyr)
-
+library(agricolae)
+setwd("~/projects/data")
 b= c(rep("character", 6),rep("factor",4), "numeric", rep("factor",6), "character", "character", "character", "numeric", rep("character",2), "factor", "character", "factor", "character", rep("character", 10), rep("factor", 6))
 DT = fread("National_Downloadable_File.csv",colClasses = b)
 names(DT)[1] <- c("NPI")
@@ -51,24 +52,7 @@ phy_bg_ratios$zip = DT[.(as.character(phy_bg_ratios$V1)), mult = "first"]$`Zip C
 # ANOVA analysis on Wisconsin on b/g ratio
 
 ```{r}
-data <-phy_bg_ratios
-data <- cbind(data,trt=factor(data$hospital,labels=1:length(unique(data$hospital))))
-model <- aov(bg_ratio ~ trt, data = data)
 
-lsd.out <- LSD.test(model, "trt", p.adj = "bonferroni")
-hsd.out <- HSD.test(model,"trt", group = T)
-
-bar.group(lsd.out$groups,ylim=c(0,1),density=4,border="blue")
-bar.group(hsd.out$groups,ylim=c(0,1),density=4,border="blue")
-
-#lsd.out$groups
-#hsd.out$groups
-
-id.group <- data %>% 
-  select(hospital, trt) %>%
-  unique()
-hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
-hsd.out$groups.id
 
 ```
 
