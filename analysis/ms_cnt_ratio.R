@@ -7,7 +7,7 @@ library(Matrix)
 library(rARPACK)
 library(zipcode)
 
-phy_drugs = fread("ny_cardi2.tab", sep="\t", header=FALSE)
+phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 #phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
@@ -54,5 +54,8 @@ range01 <- function(x){1-(x-min(x))/(max(x)-min(x))}
 
 locs = layout.fruchterman.reingold(g)
 setkey(phy_bg_ratios,V1)
+coloring = gray(range01(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio), alpha = 1)
+plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
+
 coloring = gray(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio, alpha = 1)
 plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
