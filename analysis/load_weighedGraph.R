@@ -12,3 +12,6 @@ g=graph.edgelist(el[,1:2], directed = TRUE)
 E(g)$weight=as.numeric(el[,3])
 
 #g2=graph.data.frame(el)
+
+aurora = read.csv("../pageRank/data/wi_AURORA.tab", sep="\t", header=FALSE)
+npi_aurora = as.character(unique(aurora$V1))
