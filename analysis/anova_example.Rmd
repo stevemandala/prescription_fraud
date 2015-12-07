@@ -10,6 +10,7 @@ output: pdf_document
 library(data.table)
 library(dplyr)
 library(agricolae)
+library(ggplot2)
 ```
 
 ## data loading and clean
@@ -18,7 +19,10 @@ phy_drugs = fread("F:/Academic/Stat 992/group project/toy_data/wi_cardi2.tab", s
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 #phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
-phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+if(F){
+  phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+}
+
 
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
@@ -42,7 +46,7 @@ phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
 data <-phy_bg_ratios
 data <- cbind(data,trt=factor(data$hospital,labels=1:length(unique(data$hospital))))
 model <- aov(bg_ratio ~ trt, data = data)
-
+summary(model)
 ```
 The result shows there are significant different among hospital.
 
@@ -69,3 +73,16 @@ hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
 hsd.out$groups.id
 ```
 This can also be applied to LSD
+
+## plot 
+```{r}
+bgmean <- data %>% 
+  group_by(trt) %>%
+  summarize(bgMean = mean(bg_ratio)) %>%
+  mutate(hospital = reorder(x = trt, X = bgMean, min))
+ggplot(bgmean, aes(x = hospital, y = bgMean)) +
+  geom_point(aes(color = hospital))
+#  geom_text(aes(x = hospital, y = bgMean, label = hospital), size = 2.5)
+
+ggsave(filename = "wi_cardio.png", plot = last_plot())
+```
