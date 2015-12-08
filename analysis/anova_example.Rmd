@@ -69,3 +69,18 @@ hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
 hsd.out$groups.id
 ```
 This can also be applied to LSD
+
+```{r}
+
+bgmean <- data %>% 
+  group_by(trt) %>%
+  summarize(bgMean = mean(bg_ratio)) %>%
+  mutate(hospital = reorder(x = trt, X = bgMean, min))
+ggplot(bgmean, aes(x = hospital, y = bgMean)) +
+  geom_point(aes(color = hospital))
+#  geom_text(aes(x = hospital, y = bgMean, label = hospital), size = 2.5)
+
+ggsave(filename = "wi_cardio.png", plot = last_plot())
+
+```
+
