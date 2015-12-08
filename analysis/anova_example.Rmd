@@ -30,7 +30,7 @@ grouped_by_physician = phy_drugs %>%
   select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
 
 #Calculates ratios based on number of brand name vs total claims
-phy_bg_ratios = summarise(grouped_by_physician, 
+phy_bg_ratios = dplyr::summarise(grouped_by_physician, 
                           bg_ratio = (sum(as.vector(total_claim_cnt[as.vector(drug_name) != as.vector(generic_name)]))/sum(as.vector(total_claim_cnt)))
 )
 
@@ -48,7 +48,7 @@ data <- cbind(data,trt=factor(data$hospital,labels=1:length(unique(data$hospital
 model <- aov(bg_ratio ~ trt, data = data)
 summary(model)
 ```
-The result shows there are significant different among hospital.
+P-value is 0.0109. The result shows there are significant different among hospital.
 
 
 ## Doing LSD and HSD test
