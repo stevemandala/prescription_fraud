@@ -1,10 +1,9 @@
 ---
-title: "anova_example"
+title: "ANOVA_METOPROLOL"
 author: "Zongyan Wang"
-date: "Sunday, December 06, 2015"
+date: "Monday, December 07, 2015"
 output: pdf_document
 ---
-# This document gives the example on how to do ANOVA and LSD(HSD) upon different hospital
 ## Load package
 ```{r}
 library(data.table)
@@ -19,7 +18,7 @@ phy_drugs = fread("F:/Academic/Stat 992/group project/toy_data/wi_cardi2.tab", s
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 #phy_drugs$zip = DT[as.character(phy_drugs$V1), mult = "first"]$`Zip Code` 
-if(F){
+if(T){
   phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
 }
 
@@ -27,10 +26,10 @@ if(F){
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
   group_by(V1) %>%
-  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
+  dplyr::select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
 
 #Calculates ratios based on number of brand name vs total claims
-phy_bg_ratios = summarise(grouped_by_physician, 
+phy_bg_ratios = dplyr::summarise(grouped_by_physician, 
                           bg_ratio = (sum(as.vector(total_claim_cnt[as.vector(drug_name) != as.vector(generic_name)]))/sum(as.vector(total_claim_cnt)))
 )
 
@@ -48,7 +47,7 @@ data <- cbind(data,trt=factor(data$hospital,labels=1:length(unique(data$hospital
 model <- aov(bg_ratio ~ trt, data = data)
 summary(model)
 ```
-The result shows there are significant different among hospital.
+The p-value is 7.5 * 10^{-8}, it shows there are significant different among hospital.
 
 
 ## Doing LSD and HSD test
@@ -67,12 +66,13 @@ bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
 ## You can match the group number with hospital with the data we use
 ```{r}
 id.group <- data %>% 
-  select(hospital, trt) %>%
+  dplyr::select(hospital, trt) %>%
   unique()
+
 hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
 hsd.out$groups.id
 ```
-This can also be applied to LSD
+There are three hospitals stand out, which are EDDY D. CO, MD, SC; JOAN T. HARNEY GNADT, MD, SC; MERCY HEALTH SYSTEM CORPORATION.
 
 ## plot 
 ```{r}
@@ -85,5 +85,5 @@ ggplot(bgmean, aes(x = hospital, y = bgMean)) +
   ggtitle("b/g ratio over hospitals")
 #  geom_text(aes(x = hospital, y = bgMean, label = hospital), size = 2.5)
 
-ggsave(filename = "wi_cardio.png", plot = last_plot())
+ggsave(filename = "wi_cardio_METO.png", plot = last_plot())
 ```
