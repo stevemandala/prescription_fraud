@@ -6,10 +6,11 @@ library(agricolae)
 library(igraph)
 
 #Import data
-phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
+phy_drugs = fread("ny_cardi2.tab", sep="\t", header=FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+
 
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
@@ -24,8 +25,8 @@ phy_bg_ratios = summarise(grouped_by_physician,
 phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
 
 #Consider graph and its corresponding adjacency matrix
-wi_card = wi[unique(as.character(phy_drugs$V1))]
-setkey(Ewi,V1)
+wi_card = DT[unique(as.character(phy_drugs$V1))]
+setkey(Et,V1)
 Ewi = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
 setkey(Ewi,V2)
 tmp = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
@@ -82,10 +83,10 @@ require(ggplot2)
 ## An example of how to visualize lm model
 
 ## plot with basic package
-plot(as.vector(rr) ~ as.vector(Av))
-abline(model)
+plot(as.vector(r) ~ as.vector(peerR))
+abline(modelM)
 
 ## plot with ggplot
-ggplot(model, aes(x = as.vector(rr), y = as.vector(Av))) +
+ggplot(model, aes(x = as.vector(r), y = as.vector(peerR))) +
   geom_point() +
   stat_smooth(method = "lm")
