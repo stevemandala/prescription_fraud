@@ -54,8 +54,10 @@ range01 <- function(x){1-(x-min(x))/(max(x)-min(x))}
 
 locs = layout.fruchterman.reingold(g)
 setkey(phy_bg_ratios,V1)
-coloring = gray(range01(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio), alpha = 1)
+coloring = gray(range01(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio), alpha = 0.75)
 plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
 
-coloring = gray(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio, alpha = 1)
+coloring = gray(!(phy_bg_ratios[.(as.integer(V(g)$name))]$hospital=="AURORA MEDICAL GROUP INC"), alpha = 0.75)
+plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
+coloring = gray(!(phy_bg_ratios[.(as.integer(V(g)$name))]$hospital=="PROHEALTH CARE MEDICAL ASSOCIATES INC"), alpha = 0.75)
 plot(g, vertex.label = NA, layout = locs, vertex.color = coloring )
