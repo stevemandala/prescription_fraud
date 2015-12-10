@@ -9,7 +9,7 @@ library(igraph)
 phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
-#phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
 
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
@@ -85,7 +85,7 @@ require(ggplot2)
 plot(as.vector(r) ~ as.vector(peerR))
 abline(modelM)
 
-## plot with ggplot
+## plot withm ggplot
 ggplot(model, aes(x = as.vector(peerR), y = as.vector(r))) +
   geom_point() +
   stat_smooth(method = "lm") + ggtitle("B/G Ratio vs Weighted Mean Peer B/G Ratio (for MS)") +
