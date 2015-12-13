@@ -1,5 +1,6 @@
 #Spectral Clustering
 
+rm(list = ls())
 library(Matrix)
 library(igraph)
 library(data.table)
@@ -15,6 +16,10 @@ if (FALSE) {
 set.seed(1)
 el=as.matrix(Ewi)[,1:2] #igraph needs the edgelist to be in matrix format
 g=graph.edgelist(el,directed = F) # this creates a graph.
+# set.seed(1)
+# el=as.matrix(Ewi)[,1:2] #igraph needs the edgelist to be in matrix format
+# g=graph.edgelist(el,directed = F) # this creates a graph.
+source("load_weighedGraph.R")
 
 
 #Coreness pruning (optional)
@@ -31,6 +36,17 @@ vec = eigs(A,k = 50)  # So fast!
 
 locs = layout.auto(g)
 plot(g, vertex.label = NA, vertex.color = as.factor(vec$vec[,3]>0), layout = locs)
+
+A = get.adjacency(g, attr="weight")
+A = A + t(A) # make it symmetric, but get rid of direction
+vec = eigs(A,k = 50)  # So fast!
+
+locs = layout.auto(g)
+npiInRef = unlist(get.vertex.attribute(g), use.names = F)
+# mark out the nodes in AURORA
+plot(g, vertex.label = NA, vertex.color = as.factor(npiInRef %in% npi_aurora), layout = locs, vertex.size=3)
+# mark out the nodes according to eigen vector
+plot(g, vertex.label = NA, vertex.color = as.factor(vec$vec[,4]>0), layout = locs, vertex.size=3)
 
 #TODO: Gray scale the data on bg ratio
 
