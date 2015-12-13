@@ -11,13 +11,81 @@ require(data.table)
 require(agricolae)
 require(plyr)
 require(dplyr)
+require(ggplot2)
+require("XML")
+require(RCurl)
 ```
 
 # Load data
 ```{r}
-partD_npi <- read.csv("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv")
+partD_npi <- fread("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv")
 names(partD_npi)
+npi_num <- partD_npi %>% group_by(NPPES_PROVIDER_STATE) %>%
+  dplyr::summarize(length(NPI))
+names(npi_num) <- c("State", "NPI_num")
 ```
+
+# Overview of the data
+## Get the population over states
+```{r}
+URL <- "http://simple.wikipedia.org/wiki/List_of_U.S._states_by_population"
+Lines <- readLines(URL, encoding = "UTF-8")
+states.lines <- grep(pattern = "<td align=\"left\"><span class=\"flagicon\"><img alt=\"\" src=", Lines, value = T)[1:50]
+states.lineNum <- grep(pattern = "<td align=\"left\"><span class=\"flagicon\"><img alt=\"\" src=", Lines)[1:50]
+pop.lineNum <- states.lineNum + 1
+pop.lines <- Lines[pop.lineNum]
+pop <- gsub(pattern = "(.+)>(.+)</td>", replace = "\\2", pop.lines)
+states <- gsub(pattern = "(.*)title=(.+)</a></td>", replace = "\\2", states.lines)
+states <- sub(pattern = "(.+)>(.+)", replace = "\\2", states)
+states.pop <- data.frame(States = states, pop = pop)
+```
+## merge table with npi_num
+```{r}
+## change the data's States from capital Abbreviation to lower case full name
+# get the abbreviation and full name online
+URL <- "http://state.1keydata.com/state-abbreviations.php"
+tables = readHTMLTable(URL, stringsAsFactors = FALSE)
+list <- tables[[2]]
+list <- data.frame(full = c(list$V1, list$V3), abb = c(list$V2, list$V4))
+state <- list[-27, ][-1, ]
+row.names(state) <- 1 : length(state[,1])
+states.pop <- merge(state, states.pop, by.x = "full", by.y = "States")
+npi_num <- merge(npi_num, states.pop, by.x = "State", by.y = "abb")
+## convert pop from string with "," to integer
+npi_num$pop <- lapply(npi_num[,"pop"], FUN = function(x) {gsub(pattern = ",", replace = "", x)})
+npi_num$pop <- as.integer(npi_num$pop)
+```
+## NPI number over States
+```{r}
+## Total NPI number
+length(partD_npi[,1])
+
+# npi number over states
+npi_num1 <- npi_num %>% 
+  dplyr::mutate(State = reorder(x = State, X = NPI_num, FUN = min)) %>%
+  arrange(., desc(NPI_num))
+amount_over_states <- ggplot(npi_num1, aes(x = State, y = NPI_num)) +
+  geom_point(aes(color = State)) +
+  geom_text(aes(x = State, y = NPI_num, label = State, color = State), size = 3) +
+  ggtitle("Amount of physicians over States")
+ggsave(filename = "physician_over_states.png", plot = amount_over_states, dpi = 300, width = 8, height = 6)
+```
+## physician per 100 citizens
+```{r}
+npiPerC <- npi_num %>% mutate(npi_per_100 = 100 * NPI_num/pop)
+## plot 
+npiPerC <- npiPerC %>% 
+  dplyr::mutate(State = reorder(x = State, X = npi_per_100, FUN = min)) %>%
+  arrange(., desc(npi_per_100))
+amount_per100_states <- ggplot(npiPerC, aes(x = State, y = npi_per_100)) +
+  geom_point(aes(color = State)) +
+  geom_text(aes(x = State, y = npi_per_100, label = State, color = State), size = 3) +
+  ggtitle("physicians per 100 citizens over States")
+amount_per100_states
+ggsave(filename = "physician_per100_over_states.png", plot = amount_per100_states, dpi = 300, width = 8, height = 6)
+```
+
+
 
 # ANOVA without counting claim
 ```{r}
