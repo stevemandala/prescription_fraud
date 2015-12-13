@@ -1,0 +1,86 @@
+---
+title: "StateByState"
+author: "Zongyan Wang"
+date: "Saturday, December 12, 2015"
+output: pdf_document
+---
+# This document gives an overall analyst to the b/g ratio over States
+# Load packages
+```{r}
+require(data.table)
+require(agricolae)
+require(plyr)
+require(dplyr)
+```
+
+# Load data
+```{r}
+partD_npi <- read.csv("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv")
+names(partD_npi)
+```
+
+# ANOVA without counting claim
+```{r}
+data <- cbind(partD_npi,trt=factor(partD_npi$NPPES_PROVIDER_STATE,labels=1:length(unique(partD_npi$NPPES_PROVIDER_STATE))))
+model <- aov(b.g ~ trt, data = data)
+summary(model)
+```
+The model shows significant result to States
+## Doing LSD and HSD test
+```{r}
+lsd.out <- LSD.test(model, "trt", p.adj = "bonferroni")
+hsd.out <- HSD.test(model,"trt", group = T)
+
+#bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
+#bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
+
+#lsd.out$groups
+#hsd.out$groups
+```
+
+
+## match the group number with States with the data we use
+```{r}
+id.group <- data %>% 
+  dplyr::select(NPPES_PROVIDER_STATE, trt) %>%
+  unique() %>%
+  arrange(trt)
+groups <- as.data.frame(hsd.out$groups)
+groups$trt <- as.integer(groups$trt)  
+id.group$trt <- as.integer(id.group$trt)
+result <- plyr::join(groups, id.group)
+result
+```
+
+# ANOVA with counting claim
+```{r}
+data <- cbind(partD_npi,trt=factor(partD_npi$NPPES_PROVIDER_STATE,labels=1:length(unique(partD_npi$NPPES_PROVIDER_STATE))))
+model <- aov(b.g.with.claim ~ trt, data = data)
+summary(model)
+```
+The model shows significant result to States
+## Doing LSD and HSD test
+```{r}
+lsd.out <- LSD.test(model, "trt", p.adj = "bonferroni")
+hsd.out <- HSD.test(model,"trt", group = T)
+
+#bar.group(lsd.out$groups,ylim=c(0,45),density=4,border="blue")
+#bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
+
+#lsd.out$groups
+#hsd.out$groups
+```
+
+
+## match the group number with States with the data we use
+```{r}
+id.group <- data %>% 
+  dplyr::select(NPPES_PROVIDER_STATE, trt) %>%
+  unique() %>%
+  arrange(trt)
+groups <- as.data.frame(hsd.out$groups)
+groups$trt <- as.integer(groups$trt)  
+id.group$trt <- as.integer(id.group$trt)
+result <- plyr::join(groups, id.group)
+result
+```
