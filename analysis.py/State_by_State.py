@@ -14,7 +14,7 @@ def isInt(value):
 
 
 
-rt = []
+# rt = []
 data = {}
 data_new = []
 with open("NPI_bg.csv", "w") as output:
@@ -22,10 +22,10 @@ with open("NPI_bg.csv", "w") as output:
     with open("F:/Academic/Stat 992/group project/"
               "PartD_Prescriber_PUF_NPI_DRUG_13/PARTD_PRESCRIBER_PUF_NPI_DRUG_13.tab") as file:
     #with open("F:/Academic/Stat 992/group project/toy_data/wi_dem2.tab") as file:
-        rt.extend(file.readlines())
+        # rt.extend(file.readlines())
         ### Write the file
-        for i in range(len(rt)):
-            rows = rt[i].strip().split("\t")
+        for rt in file:
+            rows = rt.strip().split("\t")
             if(isInt(rows[0])):
                 if rows[0] in data:  # if the physician is in the dictionary created
                     data[rows[0]][1] += 1
