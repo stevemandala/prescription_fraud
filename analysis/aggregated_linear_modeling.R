@@ -11,27 +11,29 @@ wi = fread("wi_DT.txt",colClasses = b)
 setkey(wi, NPI)
 Ewi = fread("wi_Et.txt",sep = ",",  colClasses = c("character", "character","numeric", "numeric", "numeric"))
 setkey(Ewi, V1)
+wi_card = wi[like(`Primary specialty`,"CARDIOLOGY")] 
 
 #Import data
-phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
-hospitals = unique(phy_drugs[, 20])
-setkey(phy_drugs,V1)
-phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+cc = c(rep("character",46))
+phy_drugs_sum = fread("PARTD_PRESCRIBER_PUF_NPI_13.tab", colClasses = cc)
+phy_drugs_sum = phy_drugs_sum[NPI %in% unique(wi$NPI)]
+# phy_bg_ratios = phy_drugs_sum %>% 
+#   group_by(NPI) %>%
+#   select(brand_cnt = as.numeric(BRAND_CLAIM_COUNT), generic_cnt = GENERIC_CLAIM_COUNT, total_cnt = TOTAL_CLAIM_COUNT) 
 
-#First aggregate ratios over physicians 
-grouped_by_physician = phy_drugs %>% 
-  group_by(V1) %>%
-  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
+phy_bg_ratios = data.table(NPI=phy_drugs_sum$NPI,
+                brand_cnt = as.numeric(phy_drugs_sum$BRAND_CLAIM_COUNT),
+                generic_cnt = as.numeric(phy_drugs_sum$GENERIC_CLAIM_COUNT),
+                total_cnt = as.numeric(phy_drugs_sum$TOTAL_CLAIM_COUNT))
+tmp = is.na(phy_bg_ratios$brand_cnt)
+phy_bg_ratios[tmp]$brand_cnt <- phy_bg_ratios[tmp]$total_cnt - phy_bg_ratios[tmp]$generic_cnt
+phy_bg_ratios$bg_ratio = phy_bg_ratios$brand_cnt/phy_bg_ratios$total_cnt
+setkey(phy_bg_ratios, NPI) 
 
-#Calculates ratios based on number of brand name vs total claims
-phy_bg_ratios = summarise(grouped_by_physician, 
-                          bg_ratio = (sum(as.vector(total_claim_cnt[as.vector(drug_name) != as.vector(generic_name)]))/sum(as.vector(total_claim_cnt)))
-)
-
-phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
 
 #Consider graph and its corresponding adjacency matrix
-wi_card = wi[unique(as.character(phy_drugs$V1))]
+phy_bg_ratios = phy_bg_ratios[NPI %in% unique(wi_card$NPI)]
+wi_card = wi[NPI %in% unique(as.character(phy_bg_ratios$NPI))]
 setkey(Ewi,V1)
 Ewi = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
 setkey(Ewi,V2)
@@ -56,7 +58,7 @@ for (i in 1:numNPI){
 D_w = solve(D_w)
 
 #Weighted sum of peer ratios matrix
-r = as.vector(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio)
+r = as.vector(phy_bg_ratios[as.character(V(g)$name)]$bg_ratio)
 peerR_w = D_w%*%A_w%*%r
 model_peerR_w = lm(r ~ peerR_w)
 
@@ -80,7 +82,7 @@ for (i in 1:numNPI){
 D_u = solve(D_u)
 
 #Weighted sum of peer ratios matrix
-r = as.vector(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio)
+r = as.vector(phy_bg_ratios[as.character(V(g)$name)]$bg_ratio)
 peerR_u = D_u%*%A_u%*%r
 model_peerR_u = lm(r ~ peerR_u)
 
@@ -124,3 +126,4 @@ ggplot(model, aes(x = as.vector(peerR), y = as.vector(r))) +
   stat_smooth(method = "lm") + ggtitle("B/G Ratio vs Weighted Mean Peer B/G Ratio (for MS)") +
   labs(x="Mean Peer B/G Ratio",y="Physician Ratio")
   
+

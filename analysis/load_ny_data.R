@@ -9,7 +9,7 @@ DT = fread("National_Downloadable_File.csv",colClasses = b)
 names(DT)[1] <- c("NPI")
 setkey(DT, NPI)
 rm(b)
-wi = DT[State == "WI"]
+wi = DT[State == "NY"]
 tmp = Et[unique(wi$NPI)]  # so cool! and fast!
 Ewi = tmp[complete.cases (tmp)]  #lots of NA's.  Have not inspected why.
 

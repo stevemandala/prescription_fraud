@@ -26,3 +26,6 @@ setkey(Ewi, V1)
 wi = wi[City == "MADISON"]
 tmp = Ewi[unique(wi$NPI)]  # so cool! and fast!
 Ewi = tmp[complete.cases (tmp)]  #lots of NA's.  Have not inspected why.
+
+
+phy_drug_sum = fread("PARTD_PRESCRIBER_PUF_NPI_13.tab")
