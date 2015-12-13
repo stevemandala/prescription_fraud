@@ -84,7 +84,89 @@ amount_per100_states <- ggplot(npiPerC, aes(x = State, y = npi_per_100)) +
 amount_per100_states
 ggsave(filename = "physician_per100_over_states.png", plot = amount_per100_states, dpi = 300, width = 8, height = 6)
 ```
+## heatmap npi_num
+```{r}
+## drop the unnecessary areas
+dropArea <- function(x){
+  x <- x[which(x$NPPES_PROVIDER_STATE %in% state$abb),]
+  row.names(x) <- 1 : length(x[,1])
+  return(x)
+}
 
+## Make every alphabet to lower case
+low <- function(x, state = state){
+  index <- grep(pattern = as.character(x$State), state$abb)
+  x$region <- state$full[index]
+  x$region <- tolower(x$region)
+  return(x)
+}
+
+Low <- function(data, state = state){
+  y <- data %>% ddply(~State, function(x){low(x, state)})
+  return(y)
+}
+
+# Get Average Latitude and Longitude for US States
+location <- read.csv("state_latlon.csv")
+names(location)[1] <- c("State")
+
+loc <- function(x, location = location){
+  x <- merge(x, location, by = "State")
+  return(x)
+}
+
+
+
+## Plot USA map
+heatmap1 <- function(x){
+  states <- map_data("state")
+  map.df <- merge(states,x, by="region", all.x=T)
+  map.df <- map.df[order(map.df$order),]
+  myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
+    geom_polygon(aes(fill= NPI_num))+
+    geom_path()+ 
+    scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
+    geom_text(aes(x=longitude, y=latitude, label=State), 
+              size=3) +
+    ggtitle("HeatMap: Amount of physicians over States")+
+    coord_map()
+  myPlot
+  return(myPlot)
+}
+
+
+## Draw npi_num
+y1 <- npi_num
+y1 <- Low(y1, state = state)
+y1 <- loc(y1, location)
+heatmap_npi_num <- heatmap1(y1)
+heatmap_npi_num
+ggsave(filename = "heatmap_npi_num.png", heatmap_npi_num, dpi = 300, width = 8, height = 6)
+```
+## heatmap npiPerC
+```{r}
+heatmap2 <- function(x){
+  states <- map_data("state")
+  map.df <- merge(states,x, by="region", all.x=T)
+  map.df <- map.df[order(map.df$order),]
+  myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
+    geom_polygon(aes(fill= npi_per_100))+
+    geom_path()+ 
+    scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
+    geom_text(aes(x=longitude, y=latitude, label=State), 
+              size=3) +
+    ggtitle("HeatMap: physicians per 100 citizen over States")+
+    coord_map()
+  myPlot
+  return(myPlot)
+}
+y2 <- npiPerC
+y2 <- Low(y2, state = state)
+y2 <- loc(y2, location)
+heatmap_npiPerC <- heatmap2(y2)
+heatmap_npiPerC
+ggsave(filename = "heatmap_npiPerC.png", heatmap_npiPerC, dpi = 300, width = 8, height = 6)
+```
 
 
 # ANOVA without counting claim
