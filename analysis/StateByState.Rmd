@@ -18,7 +18,7 @@ require(RCurl)
 
 # Load data
 ```{r}
-partD_npi <- fread("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv")
+partD_npi <- read.csv("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv", header = T)
 names(partD_npi)
 npi_num <- partD_npi %>% group_by(NPPES_PROVIDER_STATE) %>%
   dplyr::summarize(length(NPI))
@@ -198,8 +198,20 @@ id.group <- data %>%
 groups <- as.data.frame(hsd.out$groups)
 groups$trt <- as.integer(groups$trt)  
 id.group$trt <- as.integer(id.group$trt)
-result <- plyr::join(groups, id.group)
-result
+result1 <- plyr::join(groups, id.group)
+result1
+## print the result
+result <- result1 %>% mutate(NPPES_PROVIDER_STATE = 
+                              reorder(x = NPPES_PROVIDER_STATE, X = means, min)) 
+ratio_without_claim <- ggplot(result, 
+                              aes(x = NPPES_PROVIDER_STATE, y = means)) +
+  geom_point(aes(color = M)) +
+  geom_text(aes(x = NPPES_PROVIDER_STATE, y = means, 
+                label = NPPES_PROVIDER_STATE), size = 3) +
+  ggtitle("brand name to generic ratio without claiming count")
+ratio_without_claim
+ggsave(filename = "ratio_without_claim.png", ratio_without_claim, width = 8, height = 6, dpi = 300)
+
 ```
 
 # ANOVA with counting claim
@@ -231,6 +243,16 @@ id.group <- data %>%
 groups <- as.data.frame(hsd.out$groups)
 groups$trt <- as.integer(groups$trt)  
 id.group$trt <- as.integer(id.group$trt)
-result <- plyr::join(groups, id.group)
-result
+result2 <- plyr::join(groups, id.group)
+result2
+## print the result
+result <- result2 %>% mutate(NPPES_PROVIDER_STATE = 
+                              reorder(x = NPPES_PROVIDER_STATE, X = means, min)) 
+ratio_with_claim <- ggplot(result, aes(x = NPPES_PROVIDER_STATE, y = means)) +
+  geom_point(aes(color = M)) +
+  geom_text(aes(x = NPPES_PROVIDER_STATE, y = means, 
+                label = NPPES_PROVIDER_STATE), size = 3) +
+  ggtitle("brand name to generic ratio with claiming count")
+ratio_with_claim
+ggsave(filename = "ratio_with_claim.png", ratio_with_claim, width = 8, height = 6, dpi = 300)
 ```
