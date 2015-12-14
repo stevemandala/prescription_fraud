@@ -30,6 +30,7 @@ with open("NPI_bg.csv", "w", newline = "") as output:
             if(isInt(rows[0])):
                 if rows[0] in data:  # if the physician is in the dictionary created
                     data[rows[0]][1] += 1
+                    data[rows[0]][3] += int(rows[10])   ## add total_claim to total_claim
                     data[rows[0]][15] += float(rows[11])  ## total day supply
                     data[rows[0]][16] += float(rows[12])  ## total drug cost
                 else: # create a new dictionary for this physician
