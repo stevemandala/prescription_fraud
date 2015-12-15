@@ -7,21 +7,24 @@ library(agricolae)
 library(igraph)
 
 b= c(rep("character", 6),rep("factor",4), "numeric", rep("factor",6), "character", "character", "character", "numeric", rep("character",2), "factor", "character", "factor", "character", rep("character", 10), rep("factor", 6))
-wi = fread("wi_DT.txt",colClasses = b)
+wi = fread("ny_DT.txt",colClasses = b)
 setkey(wi, NPI)
-Ewi = fread("wi_Et.txt",sep = ",",  colClasses = c("character", "character","numeric", "numeric", "numeric"))
+Ewi = fread("ny_Et.txt",sep = ",",  colClasses = c("character", "character","numeric", "numeric", "numeric"))
 setkey(Ewi, V1)
 
 #Import data
-phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
+phy_drugs = fread("ny_card.txt", sep=",", header=FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
 phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+phy_drugs = phy_drugs[like(V6,"Cardiology")]
 
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
   group_by(V1) %>%
-  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11) 
+  select(drug_name = V8, generic_name = V9, total_claim_cnt = V11)
+
+grouped_by_physician$total_claim_cnt = as.numeric(grouped_by_physician$total_claim_cnt)
 
 #Calculates ratios based on number of brand name vs total claims
 phy_bg_ratios = summarise(grouped_by_physician, 
@@ -31,7 +34,7 @@ phy_bg_ratios = summarise(grouped_by_physician,
 phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
 
 #Consider graph and its corresponding adjacency matrix
-wi_card = wi[unique(as.character(phy_drugs$V1))]
+wi_card = wi[NPI %in% unique(phy_drugs$V1)]
 setkey(Ewi,V1)
 Ewi = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
 setkey(Ewi,V2)
@@ -44,7 +47,7 @@ E(g)$weight=as.numeric(Ewi$V3)
 # Calculate models over npis and peers
 # Graph matrices (weighted)
 numNPI = length(V(g))
-A_w = as.matrix(get.adjacency(graph = g, attr="weight")) #
+A_w = as.matrix(get.adjacency(graph = g)) #, attr="weight"
 L_w = as.matrix(graph.laplacian(g))
 D_w = matrix(data=0,nrow = numNPI,ncol = numNPI)
 for (i in 1:numNPI){
@@ -56,7 +59,7 @@ for (i in 1:numNPI){
 D_w = solve(D_w)
 
 #Weighted sum of peer ratios matrix
-r = as.vector(phy_bg_ratios[.(as.integer(V(g)$name))]$bg_ratio)
+r = as.vector(phy_bg_ratios[(as.character(V(g)$name))]$bg_ratio)
 peerR_w = D_w%*%A_w%*%r
 model_peerR_w = lm(r ~ peerR_w)
 

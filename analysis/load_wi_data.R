@@ -27,5 +27,10 @@ wi = wi[City == "MADISON"]
 tmp = Ewi[unique(wi$NPI)]  # so cool! and fast!
 Ewi = tmp[complete.cases (tmp)]  #lots of NA's.  Have not inspected why.
 
+cc = c(rep("character",46))
+phy_drug_sum = fread("PARTD_PRESCRIBER_PUF_NPI_13.tab", colClasses = cc)
 
-phy_drug_sum = fread("PARTD_PRESCRIBER_PUF_NPI_13.tab")
+phy_drug_total = fread("PARTD_PRESCRIBER_PUF_NPI_DRUG_13.tab", sep="\t")
+phy_drug_total = phy_drug_total[NPPES_PROVIDER_STATE == "WI"]
+write.table(phy_drug_total, file = "wi_card_all.txt", sep=",", col.names = T, row.names = F)
+

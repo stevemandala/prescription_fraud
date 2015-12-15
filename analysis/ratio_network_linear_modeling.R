@@ -13,10 +13,10 @@ Ewi = fread("wi_Et.txt",sep = ",",  colClasses = c("character", "character","num
 setkey(Ewi, V1)
 
 #Import data
-phy_drugs = fread("wi_cardi2.tab", sep="\t", header=FALSE)
+phy_drugs = fread("wi_cardi2.tab", sep="\t", header = FALSE)
 hospitals = unique(phy_drugs[, 20])
 setkey(phy_drugs,V1)
-phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
+#phy_drugs = phy_drugs[`V9`=="METOPROLOL SUCCINATE"]
 
 #First aggregate ratios over physicians 
 grouped_by_physician = phy_drugs %>% 
@@ -33,10 +33,10 @@ phy_bg_ratios$hospital <- phy_drugs[.(phy_bg_ratios$V1), mult = "first"]$V20
 #Consider graph and its corresponding adjacency matrix
 wi_card = wi[unique(as.character(phy_drugs$V1))]
 setkey(Ewi,V1)
-Ewi = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
+Ewi = Ewi[unique(as.character(phy_drugs$V1))]  # so cool! and fast!
 setkey(Ewi,V2)
-tmp = Ewi[unique(wi_card$NPI)]  # so cool! and fast!
-Ewi = tmp[complete.cases (tmp)]  #lots of NA's.  Have not inspected why.
+Ewi = Ewi[unique(as.character(phy_drugs$V1))]  # so cool! and fast!
+Ewi = Ewi[complete.cases (Ewi)]  #lots of NA's.  Have not inspected why.
 el=as.matrix(Ewi)[,1:2] #igraph needs the edgelist to be in matrix format
 g=graph.edgelist(el,directed = F) # this creates a graph.
 E(g)$weight=as.numeric(Ewi$V3)
@@ -44,7 +44,7 @@ E(g)$weight=as.numeric(Ewi$V3)
 # Calculate models over npis and peers
 # Graph matrices (weighted)
 numNPI = length(V(g))
-A_w = as.matrix(get.adjacency(graph = g, attr="weight")) #
+A_w = as.matrix(get.adjacency(graph = g)) #, attr="weight"
 L_w = as.matrix(graph.laplacian(g))
 D_w = matrix(data=0,nrow = numNPI,ncol = numNPI)
 for (i in 1:numNPI){

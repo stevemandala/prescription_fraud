@@ -6,6 +6,7 @@ output: pdf_document
 ---
 # This document gives the example on how to do ANOVA and LSD(HSD) upon different hospital
 ## Load package
+
 ```{r}
 library(data.table)
 library(dplyr)
