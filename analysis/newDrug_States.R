@@ -37,7 +37,7 @@ cat("The total new drug total usage over States \n")
 print(usagePlot)
 ## Save the plot as "newDrug_Usage_plot_state.png"
 ggsave(filename = "newDrug_Usage_plot_state.png", plot = usagePlot, path = ".",  
-       width = 8, height = 8, dpi = 300)
+       width = 8, height = 6, dpi = 300)
 
 #####################################################
 ## heatmap
@@ -101,7 +101,7 @@ y <- loc(y, location)
 heatmap_new <- heatmap_new(y)
 print(heatmap_new)
 ggsave(filename = "heatmap_new.png", plot = heatmap_new, path = ".",  
-       width = 8, height = 6, dpi = 400)
+       width = 8, height = 6, dpi = 300)
 
 
 ###########################################
@@ -149,3 +149,5 @@ drug_to_phy.plot <- ggplot(y2, aes(x = NPPES_PROVIDER_STATE, y = drug_to_phy)) +
 drug_to_phy.plot
 ggsave(filename = "drug_to_phy.png", drug_to_phy.plot, width = 8, height = 6, 
        dpi = 300)
+
+
