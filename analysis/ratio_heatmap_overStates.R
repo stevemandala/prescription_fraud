@@ -55,17 +55,30 @@ loc <- function(x, location = location){
 
 
 ## Plot USA map
-heatmap <- function(x){
+heatmap <- function(x, weight = F){
   states <- map_data("state")
   map.df <- merge(states,x, by="region", all.x=T)
   map.df <- map.df[order(map.df$order),]
-  myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
-    geom_polygon(aes(fill= bNotG))+
-    geom_path()+ 
-    scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
-    geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
-              size=3) +
+  if(weight){
+    myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
+      geom_polygon(aes(fill= bNotG))+
+      geom_path()+ 
+      scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
+      geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
+                size=3) +
+      ggtitle("brand name to generic ratio with claim counting") +
     coord_map()
+  }else{
+    myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
+      geom_polygon(aes(fill= bNotG))+
+      geom_path()+ 
+      scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
+      geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
+                size=3) +
+      ggtitle("brand name to generic ratio without claim counting") +
+      coord_map()
+  }
+  
   myPlot
   return(myPlot)
 }
@@ -77,16 +90,16 @@ y <- Low(y, state = state)
 y <- loc(y, location)
 heatmap_noWeight <- heatmap(y)
 print(heatmap_noWeight)
-ggsave(filename = "heatmap_withoutWeight.png", plot = last_plot(), path = ".",  
-       width = 10, height = 10, dpi = 600)
+ggsave(filename = "heatmap_withoutWeight.png", plot = heatmap_noWeight, path = ".",  
+       width = 8, height = 6, dpi = 300)
 
 
 ## Draw and ave with weight
-y <- dropArea(ratio_withWeight)
+y <- dropArea(ratio_Weight)
 y <- Low(y, state = state)
 y <- loc(y, location)
-heatmap_weight <- heatmap(y)
+heatmap_weight <- heatmap(y, weight = T)
 print(heatmap_weight)
-ggsave(filename = "heatmap_weight.png", plot = last_plot(), path = ".",  
-       width = 10, height = 10, dpi = 600)
+ggsave(filename = "heatmap_weight.png", plot = heatmap_weight, path = ".",  
+       width = 8, height = 6, dpi = 300)
 
