@@ -208,7 +208,8 @@ ratio_without_claim <- ggplot(result,
   geom_point(aes(color = M)) +
   geom_text(aes(x = NPPES_PROVIDER_STATE, y = means, 
                 label = NPPES_PROVIDER_STATE), size = 3) +
-  ggtitle("brand name to generic ratio without claiming count")
+  ggtitle("BPR without claim over States") +
+  labs(x = "State", y = "means of BPR")
 ratio_without_claim
 ggsave(filename = "ratio_without_claim.png", ratio_without_claim, width = 8, height = 6, dpi = 300)
 
@@ -252,7 +253,8 @@ ratio_with_claim <- ggplot(result, aes(x = NPPES_PROVIDER_STATE, y = means)) +
   geom_point(aes(color = M)) +
   geom_text(aes(x = NPPES_PROVIDER_STATE, y = means, 
                 label = NPPES_PROVIDER_STATE), size = 3) +
-  ggtitle("brand name to generic ratio with claiming count")
+  ggtitle("BPR over States") +
+  labs(x = "State", y = "means of BPR")
 ratio_with_claim
 ggsave(filename = "ratio_with_claim.png", ratio_with_claim, width = 8, height = 6, dpi = 300)
 ```
