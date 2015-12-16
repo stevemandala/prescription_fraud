@@ -6,6 +6,7 @@ require(data.table)
 require(ggplot2)
 require(plyr)
 require(dplyr)
+require("XML")
 
 # Download and Load PartD_newDrug.csv
 setwd("F:/Academic/Stat 992/group project/prescription_fraud")
@@ -16,8 +17,8 @@ partD.new <- fread("PartD_newDrug.csv")
 
 #usage <- partD.new %>% ddply(~NPPES_PROVIDER_STATE, function(x){length(x$NPI)})
 usage <- partD.new %>%
-  group_by(NPPES_PROVIDER_STATE) %>% 
-  summarise(usage = length(.$NPI))
+  dplyr::group_by(NPPES_PROVIDER_STATE) %>% 
+  dplyr::summarise(usage = sum(TOTAL_CLAIM_COUNT))
 
 # Arrange and reorder the data
 usage <- usage %>%
@@ -36,7 +37,7 @@ cat("The total new drug total usage over States \n")
 print(usagePlot)
 ## Save the plot as "newDrug_Usage_plot_state.png"
 ggsave(filename = "newDrug_Usage_plot_state.png", plot = usagePlot, path = ".",  
-       width = 10, height = 10, dpi = 600)
+       width = 8, height = 8, dpi = 300)
 
 #####################################################
 ## heatmap
@@ -56,15 +57,16 @@ dropArea <- function(x, state = state){
 }
 
 ## Make every alphabet to lower case
-low <- function(x, state = state){
-  index <- grep(pattern = as.character(x$NPPES_PROVIDER_STATE), state$abb)
+low <- function(x, state = state, variable = "NPPES_PROVIDER_STATE"){
+  index <- grep(pattern = as.character(x[,variable]), state$abb)
   x$region <- state$full[index]
   x$region <- tolower(x$region)
   return(x)
 }
 
-Low <- function(data, state = state){
-  y <- data %>% ddply(~NPPES_PROVIDER_STATE, function(x){low(x, state)})
+Low <- function(data, state = state){  
+  y <- data %>% ddply(~NPPES_PROVIDER_STATE, 
+                      function(x){low(x, state, "NPPES_PROVIDER_STATE")})
   return(y)
 }
 
@@ -85,7 +87,8 @@ heatmap_new <- function(x){
     geom_path()+ 
     scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
     geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
-              size=3) +
+              size=3)+
+    ggtitle("New drug use over States")+
     coord_map()
   myPlot
   return(myPlot)
@@ -97,5 +100,52 @@ y <- Low(y, state = state)
 y <- loc(y, location)
 heatmap_new <- heatmap_new(y)
 print(heatmap_new)
-ggsave(filename = "heatmap_new.png", plot = last_plot(), path = ".",  
-       width = 10, height = 10, dpi = 600)
+ggsave(filename = "heatmap_new.png", plot = heatmap_new, path = ".",  
+       width = 8, height = 6, dpi = 400)
+
+
+###########################################
+############################################
+
+## Next, get the new medicine usage to amount of physicians ratio
+
+############################################
+
+## get the amount of physicians over States
+partD_npi <- read.csv("F:/Academic/Stat 992/group project/prescription_fraud/analysis.py/NPI_bg.csv", header = T)
+names(partD_npi)
+npi_num <- partD_npi %>% group_by(NPPES_PROVIDER_STATE) %>%
+  dplyr::summarize(length(NPI))
+names(npi_num) <- c("State", "NPI_num")
+## merge with y
+## doing merge and get the new drug usage to population ratio
+y1 <- merge(y, npi_num,  by.y = "State", by.x = "NPPES_PROVIDER_STATE") %>%
+  mutate(drug_to_phy = usage / NPI_num) 
+heatmap_new1 <- function(x){
+  states <- map_data("state")
+  map.df <- merge(states,x, by="region", all.x=T)
+  map.df <- map.df[order(map.df$order),]
+  myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
+    geom_polygon(aes(fill= drug_to_phy))+
+    geom_path()+ 
+    scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
+    geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
+              size=3)+
+    ggtitle("New drug use over States")+
+    coord_map()
+  myPlot
+  return(myPlot)
+}
+drug_to_phy_heat <- heatmap_new1(y1)
+ggsave(filename = "drug_to_phy_heat.png", drug_to_phy_heat, width = 8, height = 6, 
+       dpi = 300)
+y2 <- y1 %>% mutate(NPPES_PROVIDER_STATE = reorder(
+  x = NPPES_PROVIDER_STATE, X = drug_to_phy)) 
+drug_to_phy.plot <- ggplot(y2, aes(x = NPPES_PROVIDER_STATE, y = drug_to_phy)) +
+  geom_point(aes(color = drug_to_phy))+
+  geom_text(aes(x = NPPES_PROVIDER_STATE, y = drug_to_phy, 
+                label = NPPES_PROVIDER_STATE, color = drug_to_phy)) +
+  ggtitle("drug to physician amount ratio")
+drug_to_phy.plot
+ggsave(filename = "drug_to_phy.png", drug_to_phy.plot, width = 8, height = 6, 
+       dpi = 300)
