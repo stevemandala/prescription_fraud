@@ -38,7 +38,7 @@ with open("NPI_bg.csv", "w", newline = "") as output:
                     data[rows[0]].extend(rows)
                     data[rows[0]][15] = float(data[rows[0]][15])
                     data[rows[0]][16] = float(data[rows[0]][16])
-                if rows[7] == rows[8]: # physician use a brand_name
+                if rows[7] != rows[8]: # physician use a brand_name
                     data[rows[0]][0] += 1
                     data[rows[0]][2] += int(rows[10])   ## add total_claim to brand-name count
             else:
