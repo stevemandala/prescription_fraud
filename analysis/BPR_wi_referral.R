@@ -12,8 +12,20 @@ BPR <- npi_graph$b.g.with.claim
 
 
 gcolor = gray(1-(BPR-min(BPR))/(max(BPR)-min(BPR)))
-BPR_wi_referral <- plot(g1, vertex.label = NA, vertex.color = gcolor, layout = locs)
+BPR_wi_referral <- plot(g1, vertex.label = NA, vertex.color = gcolor,
+                        layout = locs, main = "subgraph with coreness larger than 10")
 
+## clust
+clust = clusters(g1)
+tmp = induced.subgraph(graph = g1,vids = (clust$mem ==2))
+plot(tmp, vertex.label = NA, vertex.color = gcolor, layout = locs)
+
+
+
+
+
+####################################################
+#Further consideration
 
 # use hospital as the color
 
