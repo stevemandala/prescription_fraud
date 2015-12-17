@@ -62,7 +62,7 @@ pageRank_cost_wrap <- npi_pageRank %>%
   labs(x = "pagerank", y = "Total drug cost")
 
 print(pageRank_cost_wrap)
-ggsave(filename = "cost_with_pagerank_wrap.png", pageRank_cost_wrap, width = 8, height = 6, dpi = 300)
+ggsave(filename = "cost_with_pagerank_wrap.png", pageRank_cost_wrap, width = 12, height = 9, dpi = 200)
 
 cor.test(npi_pageRank$TOTAL_DRUG_COST, npi_pageRank$pagerank,  method = "spearman")
 
