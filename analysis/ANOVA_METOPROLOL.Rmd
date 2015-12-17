@@ -67,22 +67,39 @@ bar.group(hsd.out$groups,ylim=c(0,45),density=4,border="blue")
 ```{r}
 id.group <- data %>% 
   dplyr::select(hospital, trt) %>%
-  unique()
-
-hsd.out$groups.id <- merge(id.group, hsd.out$groups, by = "trt")
-hsd.out$groups.id
+  unique() %>%
+  arrange(trt)
+groups <- as.data.frame(hsd.out$groups)
+groups$trt <- as.integer(groups$trt)  
+id.group$trt <- as.integer(id.group$trt)
+result <- plyr::join(groups, id.group)
+result
 ```
 There are three hospitals stand out, which are EDDY D. CO, MD, SC; JOAN T. HARNEY GNADT, MD, SC; MERCY HEALTH SYSTEM CORPORATION.
 
 ## plot 
 ```{r}
+result <- result %>% mutate(hospital = 
+                              reorder(x = hospital, X = means, min)) 
+hospital_HSD <- ggplot(result, aes(x = hospital, y = means)) +
+  geom_point(aes(color = M)) +
+  geom_text(aes(x = hospital, y = means, 
+                label = hospital, color = M), size = 3) +
+  ggtitle("BPR over hospital on METOPROLOL") +
+  labs(x = "Hospital", y = "means of BPR")
+hospital_HSD
+
+ggsave(filename = "hospital_HSD.png", hospital_HSD, width = 8, height = 6, dpi = 300)
+```
+
+```{r}
 bgmean <- data %>% 
   group_by(trt) %>%
-  summarize(bgMean = mean(bg_ratio)) %>%
-  mutate(hospital = reorder(x = trt, X = bgMean, min))
-ggplot(bgmean, aes(x = hospital, y = bgMean)) +
+  summarize(BPR = mean(bg_ratio)) %>%
+  mutate(hospital = reorder(x = trt, X = BPR, min))
+ggplot(bgmean, aes(x = hospital, y = BPR)) +
   geom_point(aes(color = hospital)) +
-  ggtitle("b/g ratio over hospitals")
+  ggtitle("BPR over hospitals")
 #  geom_text(aes(x = hospital, y = bgMean, label = hospital), size = 2.5)
 
 ggsave(filename = "wi_cardio_METO.png", plot = last_plot())
