@@ -61,21 +61,21 @@ heatmap <- function(x, weight = F){
   map.df <- map.df[order(map.df$order),]
   if(weight){
     myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
-      geom_polygon(aes(fill= bNotG))+
+      geom_polygon(aes(fill= BPR))+
       geom_path()+ 
       scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
       geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
                 size=3) +
-      ggtitle("brand name to generic ratio with claim counting") +
+      ggtitle("Heatmap: BPR over States")
     coord_map()
   }else{
     myPlot <- ggplot(map.df, aes(x=long,y=lat,group=group))+
-      geom_polygon(aes(fill= bNotG))+
+      geom_polygon(aes(fill= BPR))+
       geom_path()+ 
       scale_fill_gradientn(colours=rev(heat.colors(20)),na.value="grey90")+
       geom_text(aes(x=longitude, y=latitude, label=NPPES_PROVIDER_STATE), 
                 size=3) +
-      ggtitle("brand name to generic ratio without claim counting") +
+      ggtitle("Heatmap: BPR without claim counting over States") +
       coord_map()
   }
   
@@ -88,6 +88,7 @@ heatmap <- function(x, weight = F){
 y <- dropArea(ratio_noWeight)
 y <- Low(y, state = state)
 y <- loc(y, location)
+y <- y %>% mutate(BPR = bNotG)
 heatmap_noWeight <- heatmap(y)
 print(heatmap_noWeight)
 ggsave(filename = "heatmap_withoutWeight.png", plot = heatmap_noWeight, path = ".",  
@@ -98,6 +99,7 @@ ggsave(filename = "heatmap_withoutWeight.png", plot = heatmap_noWeight, path = "
 y <- dropArea(ratio_Weight)
 y <- Low(y, state = state)
 y <- loc(y, location)
+y <- y %>% mutate(BPR = bNotG)
 heatmap_weight <- heatmap(y, weight = T)
 print(heatmap_weight)
 ggsave(filename = "heatmap_weight.png", plot = heatmap_weight, path = ".",  
