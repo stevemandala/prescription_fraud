@@ -24,7 +24,7 @@ with open("F:/Academic/Stat 992/group project/"
 
 print("NPIs have been extracted from NPI_bg.csv")
 
-with open("referral_wi.csv", "w") as ref_wi:
+with open("referral_wi.csv", "w", newline = "") as ref_wi:
     writer = csv.writer(ref_wi)
     last = ""
     with open("F:/Academic/Stat 992/group project/physician_referrals13-14_inPARTD.csv") as ref:
